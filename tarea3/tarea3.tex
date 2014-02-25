@@ -64,9 +64,85 @@
     $\delta$, que no distingue entre Alice y Bob. Es decir Alice y Bob pueden tener
     ya sea el valor 0 o 1 de entrada. También da la $\delta$ óptima para este caso.
     Aqui debes de tener cuidado de como etiquetas los vértices para que siempre
-    se cumpla la $\epsilon$.}
+    se cumpla la $\epsilon$.}\\
+  
+    Primero vamos a cambiar el complejo de entrada de tal forma que sea más fácil 
+    comprender el problema y con ello dar una $\epsilon$-agreement para M rondas.\\
+    
+     \begin{figure}
+       \centering
+       \includegraphics[scale=0.25]{2_input.png}
+       \caption{Complejo de entrada para $\epsilon$-agreement con equidad de género.}
+     \end{figure}
+
+     La explicación del complejo de entrada es(\textit{figura 1}):
+     
+     \begin{itemize}
+       \item{El vertice con etiqueta {0} representa el mundo donde al menos un proceso
+           tiene como entrada 0.}
+       \item{El vertice con etiqueta {1} representa el mundo donde al menos un proceso
+           tiene como entrda 1.}
+       \item{La arista entre los dos únicos vertices representa el mundo donde algun 
+           proceso tiene como entrada 0 y otro tiene entrada 1.}
+     \end{itemize}
   }
 
+  ¿Como evoluciona este complejo en la primera ronda?, la \textit{figura 2} es la
+  gráfica de protocolo de la ronda 1.
+
+  \begin{figure}
+    \centering
+    \includegraphics[scale=0.25]{2_protocol2.png}
+    \caption{Gráfica de protocolo de la primera ronda  para $\epsilon$-agreement con equidad de género.}
+  \end{figure}
+  
+  En esa gráfica tenemos tres vértices que representan lo siguiente:
+  
+  \begin{itemize}
+    
+    \item{La etiqueta {0} representa el mundo donde el o los procesos  escucharon 0 
+         o no escucharon nada y como entrada tuvieron 0.}
+      
+    \item{La etiquieta {01} representa el mundo donde el o los procesos  escucharon 0 o 1
+        y esos procesos tiene como entrada el numero contrario al que escucharon.}
+      
+    \item{La etiquieta {1} representa el mundo donde el o los procesos escucharon 1
+      o no escucharon nada y como entrada tuvieron 1.}
+
+    \item{Las aristas entre cada vértices representa que existe un mundo donde hay 
+      vértices de un tipo y vértices del otro.}
+    
+  \end{itemize}
+
+  Analizemos cuál es la $\epsilon$-agreement para la primera ronda.\\
+  Como nuestra gráfica de protocolo tiene 3 vértices, entonces la $\delta(x)$
+  es la siguiente:\\
+  
+  \begin{itemize}
+    
+  \item{Si x sabe que alguien dijo 0 y alguien dijo 1, entonces decide $1/2$.}
+    
+  \item{Si x dijo 0 y escucho 0 o no escucho nada, entonces decide $0$.}
+    
+  \item{Si x dijo 1 y escucho 1 o no escucho nada, entonces decide $1$.}
+    
+  \end{itemize}
+  
+  Como podemos darnos cuenta, la $\delta$-óptima es $1/2$ y no puede ser menor
+  por que querría decir que existe un mapeo de un camino de 3 vértices a otro
+  camino de más de 3 vértices.\\
+
+  Ahora que ya sabemos como fue la $\Xi$ para la primera ronda, es fácil ver
+  que en cada ronda las aristas se dividen en otras dos aristas, y analogmanete
+  decimos que la $\delta$-óptima es $1/2^k$ pues que si existiera una $\delta$
+  mejor, querria decir que existe un mapeo de un camino de $2^k$ vértices a otro
+  camino de más de $2^k$ vértices.\\
+
+  Como corolario de esto último podemos decir que el algoritmo para optener
+  un $k$-aproximacion de este problema tiene complejidad $O(log_2 k)$. 
+
+  
+  
 \item{
     
     \textsl{
