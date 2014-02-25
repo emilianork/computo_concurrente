@@ -8,6 +8,7 @@
 
 \usepackage{graphicx}
 
+\linespread{1.2}
 
 \title{Computación Concurrente \\ \Large{Tarea 3}}
 \author{
@@ -20,6 +21,7 @@
 \maketitle
 \begin{enumerate}
 \item{
+    \textsl{
     Recuerden el modelo visto en clase con el que resolvimos la tarea
     $\epsilon$-aggremment para dos procesos. Alice y Bob proponen un valor y
     quieren quedar de acuerdo en un valor que no diste más de $\epsilon$ de lo
@@ -37,7 +39,11 @@
     mutuamente la conversación sigue. En el momento que uno ya no escucha al otro
     ahi se termina.
     Sea \textit{M} $≥$ 0 el número de rondas máximo que se pueden comunicar Alice
-    y Bob:
+    y Bob:}
+
+    \begin{enumerate}
+      \item{\textsl{Para los 2 modelos dados describe el complejo del protocólo para M. 
+        Tienes que dar la tripleta $(I,P_m,\Xi_m)$}}
 
     \begin{enumerate}
       \item{Para los 2 modelos dados describe el complejo del protocolo para M. 
@@ -105,10 +111,10 @@
         Con esto renemos que para \textit{M} $≥$ 0, el número de aristas en la ronda
         \textit{M} es: $2M + 1$\\
 
-      \item{Para los 2 modelos describe cuál es la tarea $\epsilon$-agreement
+      \item{\textsl{Para los 2 modelos describe cuál es la tarea $\epsilon$-agreement
         óptima para cada \textit{M} $≥$ 0. Nos referimos a óptimo como que cada
         vista del protocolo va a un valor de decisión único. En otras palabras
-        encontrar la $\epsilon$ en función de M.}\\\\
+        encontrar la $\epsilon$ en función de M.}}\\\\
 
         \textbf{SOLUCIÓN}\\
         Con el inciso anterior obtuvimos que en el \textit{modelo chismoso}, para una 
@@ -130,29 +136,88 @@
   }
 
 \item{
+    \textsl{
     Con el modelo visto en clase define la función de decisión de equidad de género
     $\delta$, que no distingue entre Alice y Bob. Es decir Alice y Bob pueden tener
     ya sea el valor 0 o 1 de entrada. También da la $\delta$ óptima para este caso.
     Aqui debes de tener cuidado de como etiquetas los vértices para que siempre
-    se cumpla la $\epsilon$.
+    se cumpla la $\epsilon$.}
   }
 
 \item{
     
+    \textsl{
     Ahora regresamos al modelo de memoria compartida y modifiquémoslo. Ahora 
     supongamos que tenemos solo una memoria. Es decir ya no tenemos capas y
     sobreescribimos nuestra parte del arreglo cada ronda. También regresamos
-    al caso en que Alice propone 0 y Bob 1.
+    al caso en que Alice propone 0 y Bob 1.}
     \begin{enumerate}
       
-    \item{Describe el modelo (haz la gráfica) y ve como se ve la gráfica de 
-        vistas después de M rondas.
-      }
+    \item{\textsl{Describe el modelo (haz la gráfica) y ve como se ve la gráfica de 
+        vistas después de M rondas.}\\
+      \\
+      Es claro ver que la gráfica de entrada es la misma que la del problema original,
+      dicha gráfica se muestra en la \textit{figura 1}.\\
+      
+      \begin{figure}
+        \centering
+        \includegraphics[scale=0.6]{3a_input.png}
+        \caption{Complejo de entrada.}
+      \end{figure}
+      
+      \begin{figure}
+        \centering
+        \includegraphics[scale=0.26]{3a_protocol.png}
+        \caption{Complejo de la segunda ronda.}
+      \end{figure}
+          
+      En la primera ronda(\textit{figura 2}) podemos decir que el complejo es el mismo
+      al del problema visto en clase, esto se debe a que cada proceso ocupa el único espacio
+      de memoria del cual dispone, teniendo como información inicial, lo que él dijo (0 ó 1)
+      más aparte lo que leyo del otro proceso (0, 1 ó $\perp$).\\
+      Lo interesante ocurre apartir de la ronda 2, ¿cuál es el complejo que resulta en la segunda
+      ronda?, la respuesta es simple, el mismo complejo de la ronda 1. Aún más interesante
+      ¿por que ocurre esto?, primero debemos notar que en el modelo \textit{full information} 
+      saber toda la historia de la conversación que mantuvieron los dos procesos durante las M
+      rondas nos da la capacidad de convertir una arista en 3 posibles mundos subsecuentes,
+      como en el modelo que se nos pide en este ejercicio perdemos esa capacidad, entonces 
+      no importa cuantas rondas de comuncación mantuvieron los procesos, si en todo momento solo
+      existe la posibilidad de que alguno de los dos no escucho al otro o ambos se escucharon.\\
+      Por lo tanto, la gráfica de vistas de la ronda M es el mostrado en la \textit{figura 2}.\\
+    }
+       
+      \item{\textsl{¿Cuál es la mejor $\epsilon$ que puede resolver en la tarea del 
+            $\epsilon$-agreement en M rondas?}\\ \\
+         
+          \begin{figure}
+            \centering
+            \includegraphics[scale=0.65]{3b_agreement.png}
+            \caption{Mapeo simplicial para resolver \textit{3-approximate agreement}}
+          \end{figure}
+          
+          En clase vimos que si $M = 2$, entonces la $\epsilon$ más fina que podemos obtener es
+          $1/3$, la razón de esto es por que topologicamente si la grafica de salida tuviera 
+          más de 4 vértices, la gráfica de protocolo no se puede mapear a la de salida.\\
+          En este ejercicio se nos pide analizar el caso en que Alice dice 0 y Bob dice 1 para M
+          rondas. Por el inciso \textit{a} sabemos que la grafica de protocolo para cualquier
+          M es igual a la grafica de protocolo de $M = 2$, por lo que la $\epsilon$-agreement 
+          óptima para M rondas es la $\epsilon$ para $M = 2$ y usando el mismo razónamiento
+          decirmos que la $\epsilon$ óptima es $1/3$.\\
+          Por último el mapeo simplicial es el mismo al visto en clase: 
+          
+          \begin{itemize}
+            \item{Si Alice o Bob no escucharon al otro proceso, entonces deciden lo que en un principio
+              dijeron.}
+            \item{Si Bob sabe que dijo Alice, entonces decide $1/3$.}
+            \item{Si Alice sabe que dijo Bob, entonces decide $2/3$.}
+          \end{itemize}
 
-    \item{¿Cuál es la mejor $\epsilon$ que puede resolver en la tarea del 
-        $\epsilon$-agreement en M rondas?}
-    \end{enumerate}
-  }
-
-\end{enumerate}
+          
+          
+        }
+        
+      \end{enumerate}
+    }
+    
+  \end{enumerate}
 \end{document}
