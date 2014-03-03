@@ -1,0 +1,64 @@
+\documentclass{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\linespread{1.2}
+
+\title{Computación Concurrente \\ \Large{Tarea Exámen 1}}
+\author{
+  Diego Goméz Montesinos
+  \and
+  José Emiliano Cabrera Blancas
+  }
+\date{4 marzo 2014}
+\begin{document}
+\maketitle
+\begin{enumerate}
+  
+\item{
+    \textsl{
+      En clase hemos visto mapas portadores y mapas simpliciales. Sea $\Xi$ un
+      mapa portardor y sea $\delta$ un mapa simplicial que preserva estructura,
+      demuestra que si la composición $\delta \circ \Xi$ es un mapa portador, 
+      entonces $\Xi \circ \delta$ es un mapa portador
+    }
+  }
+  
+\item{
+    \textsl{ 
+      Diseña un algoritmo (secuencial) que dada una tarea $T = (\mathcal{I},\mathcal{O},\Delta)$
+      conteste si tiene o no solución en el modelo iterado wait-free visto en clase, y si la tiene,
+      conteste en a lo más cuantas capas. Analiza su correctez y complejidad (como función del tamaño
+      de la entrada), suponiendo que para cada vértice $v$ de $\mathcal{I},\Delta(v)$ consiste de 
+      un conjunto de a lo más $k$ vértices, para una constante k.
+    }
+  }    
+
+\item {
+    \textsl{
+      En el modelo anónimo iterado para n procesos, $n ≥ 1$, con $L = 1$ iteración, definir
+      cuales son las posibles vistas de los procesos en una ejecución, cuyos valores de entrada
+      son $S$. Es decir, para cada $x \in S$, al menos un proceso empieza con $x$. (posta: si el
+      conjunto de entradas en la ejecución es un conjunto $S$, la vista de un proceso es un 
+      subconjunto de $S$, y las vistas $S_1,S_2,...,S_k$ están en la misma ejecución si y solo si
+      todas son subconjuntos de $S$, y se pueden ordenar de forma que cada una este contenida o
+      sea igual a la siguiente)
+    }
+  }
+  
+\item{
+    \textsl{
+      Demuestra que un modelo anónimo y un modelo cromático tienen el mismo poder de cómputo, es
+      decir, todas las tareas anónumas, $\langle \mathcal{I},\mathcal{O},\Delta \rangle$ tal que
+      $\mathcal{I}$ y $\mathcal{O}$ no tiene colores, que se pueden resolver en un modelo anónimo
+      también las puede resolver un modelo cromático.\\
+      Considera modelos para dos procesos, iterado y wait-free.
+    }
+  }
+\end{enumerate}
+\end{document}
