@@ -73,8 +73,8 @@
     Dada la definición de mapeo portador conexo, el algoritmo quedaría de la siguiente manera:\\
     
     \begin{algorithmic}
-    \STATE $m \leftarrow 0$
-    \STATE $k \leftarrow 0$
+    \STATE $m \leftarrow 0$ \COMMENT{En esta variable se guardarán la longitud del camino más grande (maximo).}
+    \STATE $k \leftarrow 0$ \COMMENT{En esta variable se guardarán la longitud del camino actual.}
     \FORALL{arista $e\in\mathcal{I}$ \COMMENT{Esto se puede hacer con BFS ó DFS, empezando con una arista arbitraria}}
     \STATE $e \leftarrow $ arista actual
     \STATE $u \leftarrow $ un extremo de $e$
@@ -110,14 +110,45 @@
 
 \item {
     \textsl{
-      En el modelo anónimo iterado para n procesos, $n ≥ 1$, con $L = 1$ iteración, definir
+      En el modelo anónimo iterado para $n$ procesos, $n ≥ 1$, con $L = 1$ iteración, definir
       cuales son las posibles vistas de los procesos en una ejecución, cuyos valores de entrada
-      son $S$. Es decir, para cada $x \in S$, al menos un proceso empieza con $x$. (posta: si el
+      son $S$. Es decir, para cada $x \in S$, al menos un proceso empieza con $x$. (pista: si el
       conjunto de entradas en la ejecución es un conjunto $S$, la vista de un proceso es un 
       subconjunto de $S$, y las vistas $S_1,S_2,...,S_k$ están en la misma ejecución si y solo si
       todas son subconjuntos de $S$, y se pueden ordenar de forma que cada una este contenida o
-      sea igual a la siguiente)
+      sea igual a la siguiente).
     }
+
+    \textbf{SOLUCIÓN}\\
+    Primero veamos los casos sencillos. Supongamos que $S = \{S_{0}, S_{1}\}$, el complejo de entrada
+    quedaría:\\
+    \begin{center}
+      \includegraphics[scale=0.5]{input.png}
+      \\\tiny{Complejo de entrada anónimo con $|S| = 2$.}
+    \end{center}
+    Ahora, después de una ronda de comunicación, este complejo queda de la siguiente manera:\\
+    \begin{center}
+      \includegraphics[scale=0.5]{input_1.png}
+      \\\tiny{Complejo después de una ronda de comunicación con $|S| = 2$.}
+    \end{center}
+    El vértice $\{S_{0}\}$, representa a todos los procesos que tienen vista $\{S_{0}\}$ (análogo para $\{S_{1}\}$),
+    y la arista $(\{S_{0}\}, \{S_{0},S_{1}\})$, representa la ejecución donde al menos un proceso tiene vista
+    $\{S_{0}\}$, y al menos un proceso tiene vista $\{S_{0}, S_{1}\}$.
+    Note que se cumple que las vistas están contenidas en $S$, $\{S_{0}\} \subseteq S$ y $\{S_{0},S_{1}\} \subseteq S$; y se pueden
+    ordenar por conjunción: $\{S_{0}\} \subseteq \{S_{0},S_{1}\}$.\\
+    Ahora veamos que pasa con $S = \{S_{0}, S_{1}, S_{2}\}$.\\
+    \begin{center}
+      \includegraphics[scale=0.5]{input_2.png}
+      \\\tiny{Con $|S| = 3$.}
+    \end{center}
+    Podemos ver que se cumplen las propiedades que son subconjuntos de $S$, y que se pueden ordenar por contención.\\
+    Ahora daremos la generalización: si $|S| = k$ para alguna $k$ tal que $n ≥ k ≥ 1$; entonces el complejo de entrada
+    será un simplejo de dimensión $|S| - 1$, que está formado por simplejos de dimensión $d = 0, 1, ..., k-1$. En la primera
+    ronda de comunicación, cada uno de estos simplejos se subdividirán y el vértice central(simplejo de dimensión $d = 0$) tendrá
+    vista de cardinalidad $d + 1$. Después todos los vértices se unirán al vértice central.\\
+    Observe como esto se cumple en el ejemplo con $|S| = 3$.\\
+    Dado que los simplejos se van subvididiendo y las vistas de sus vértices centrales tienen vista con cardinalidad $d + 1$, entonces
+    se puede ordenar por contención.
   }
   
 \item{
