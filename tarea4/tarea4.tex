@@ -6,6 +6,8 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 
 \linespread{1.2}
 
@@ -37,7 +39,58 @@
       de la entrada), suponiendo que para cada vértice $v$ de $\mathcal{I},\Delta(v)$ consiste de 
       un conjunto de a lo más $k$ vértices, para una constante k.
     }
-  }    
+
+    \textbf{SOLUCIÓN}\\
+    Primero veamos el algoritmo verificador.\\
+    En clase vimos el Teorema Principal para tareas de dos procesos: Dada una tarea $(\mathcal{I},\mathcal{O},\Delta)$
+    tiene solución en el modelo iterado por capas si y solo si existe un mapeo portador conexo
+    $\Phi: \mathcal{I} \rightarrow 2^{\mathcal{O}}$, portado por $\Delta$.\\
+    Dado que el modelo iterado wait-free es un subconjunto del modelo iterado por capas, entonces, podemos
+    aplicar el Teorema y decir que la tarea $T$ tiene solución si existe un mapeo portador conexo $\Phi$, portado por $\Delta$.\\
+    Entonces el algoritmo tendría que verificar si existe o no tal mapeo portador conexo; ahora, dado que el mapeo portador
+    $\Phi$ debe ser conexo, entonces debe ocurrir que $\forall\sigma\in\mathcal{I}$, $\Phi(\sigma)$ es una
+    gráfica conexa. Pero como $\Phi$ es portado por $\Delta$, entonces tendríamos que ver que $\Delta$ fuera un mapeo portador
+    conexo, ya que de lo contrario $\Phi$ no sería conexo.\\
+    Entonces, la idea del algoritmo será recorrer $I$, e ir checando que $\Delta$, sea un mapeo portador conexo.
+    Además llevaremos un contador de aristas, para ver cual es el camino más largo y en base a eso decir cuantas capas
+    son necesarios para resolverlo.\\
+    Dada la definición de mapeo portador conexo, el algoritmo quedaría de la siguiente manera:\\
+    
+    \begin{algorithmic}
+    \STATE $m \leftarrow 0$
+    \STATE $k \leftarrow 0$
+    \FORALL{arista $e\in\mathcal{I}$ \COMMENT{Esto se puede hacer con BFS ó DFS, empezando con una arista arbitraria}}
+    \STATE $e \leftarrow $ arista actual
+    \STATE $u \leftarrow $ un extremo de $e$
+    \STATE $v \leftarrow $ el otro extremo de $e$
+    \STATE $esConexo \leftarrow False$
+    \FORALL{arista $e'\in\Delta(e)$ \COMMENT{Esto se puede hacer con BFS ó DFS, empezando con una arista adyacente a $\Delta(u)$}}
+    \STATE $e' \leftarrow $ arista actual
+    \IF{$e' \in \Delta(e)$}
+    \STATE $u' \leftarrow $ un extremo de $e'$
+    \STATE $v' \leftarrow $ el otro extremo de $e'$
+    \IF{$u' == \Delta(v) \wedge v' == \Delta(v) $}
+    \STATE $esConexo \leftarrow True$
+    \ENDIF
+    \STATE $k \leftarrow k + 1$
+    \ENDIF
+    \ENDFOR
+    \IF{$!esConexo$}
+    \RETURN $False$
+    \ENDIF
+    \STATE $m \leftarrow max(k, m)$
+    \ENDFOR
+    \RETURN $\lceil log_{3} m \rceil$
+    \end{algorithmic}
+
+    Dado que DFS y BFS son de complejidad $O(\mathcal{I}) = O(|V| + |E|)$, y suponemos que cada vértice $v$ de $\mathcal{I},\Delta(v)$
+    consiste de un conjunto de a lo más $k$ vértices, para una constante k; entonces la complejidad del algoritmo es de
+    $O((|V| + |E|) k)$.\\
+    El algoritmo es correcto, ya que tanto $\mathcal{I}$, como $\mathcal{O}$ son finitas, es decir, ambos recorridos terminarán; además
+    cumplirá con descubrir si algún $\Delta(e)$ no es conexo, y con esto ver si $\Delta$ es un mapeo portador conexo. Note que, por
+    hacer el recorrido BFS o DFS nos vamos tomando aristas adyacentes, verificando de igual manera que si $v\subseteq\sigma\cap\tau$ entonces
+    $\Delta(v)\subseteq\Delta(\sigma)\cap\Delta(\tau)$.
+  }
 
 \item {
     \textsl{
