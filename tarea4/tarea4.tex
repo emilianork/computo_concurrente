@@ -27,8 +27,24 @@
       En clase hemos visto mapas portadores y mapas simpliciales. Sea $\Xi$ un
       mapa portardor y sea $\delta$ un mapa simplicial que preserva estructura,
       demuestra que si la composición $\delta \circ \Xi$ es un mapa portador, 
-      entonces $\Xi \circ \delta$ es un mapa portador
+      entonces $\Xi \circ \delta$ es un mapa portador.\\
     }
+    
+    Por demostrar:\\
+    Si la composición $\delta \circ \Xi$ es un mapeo portador $\Rightarrow$ 
+    $\Xi \circ \delta$ es un mapeo portador.
+    
+    Demostración:\\
+    Primero hacemos una observación, sea $v \in G$, por hipótesis la siguiente 
+    proposición se cumple: $\delta(v) \in G$ y $\Xi(v) \in G$.\\
+    Dado que $\Xi$ es un mapeo portador, sabemos que si $\tau \in G$ y 
+    $\sigma \in G$ $\Rightarrow$ $\Xi(\tau)$ $\subseteq$ $\Xi(\sigma)$(es monótono).\\
+    Por lo que si $\delta(\Xi(G))$ es un mapeo portador, entonces $\delta(u)$ es un
+    mapeo portador con $u \in \Xi(G)$, dicho de otra forma, $\tau' \in \Xi(G)$ y 
+    $\sigma' \in \Xi(G)$, donde $\tau'$ $\subseteq$ $\sigma'$ $\Rightarrow$ $\delta(\tau') 
+    \subseteq \delta(\sigma')$.\\
+    Como $\Xi(G) = G$, entonces por hipótesis $\delta$ es un mapeo portador, por lo que 
+    
   }
   
 \item{
@@ -107,11 +123,27 @@
 \item{
     \textsl{
       Demuestra que un modelo anónimo y un modelo cromático tienen el mismo poder de cómputo, es
-      decir, todas las tareas anónumas, $\langle \mathcal{I},\mathcal{O},\Delta \rangle$ tal que
+      decir, todas las tareas anónimas, $\langle \mathcal{I},\mathcal{O},\Delta \rangle$ tal que
       $\mathcal{I}$ y $\mathcal{O}$ no tiene colores, que se pueden resolver en un modelo anónimo
       también las puede resolver un modelo cromático.\\
-      Considera modelos para dos procesos, iterado y wait-free.
+      Considera modelos para dos procesos, iterado y wait-free.\\
     }
+
+    Demostración:\\
+    Sea $T$ una tarea definida por $\langle$ $\mathcal{I},\mathcal{O},\Delta$ $\rangle$ con $\mathcal{I}$
+    y $\mathcal{O}$ gráficas anónimas. Por hipótesis decimos que existe una $\delta$ un mapeo portador
+    tal que resuelve la tarea dada.
+    ¿Qué un modelo sea anónimo que quiere decir?, visto de otra forma, podemos decir que la $\delta$ que
+    resuelve el modelo anónimo tiene la caracteristica de no importarle que vértice es, sino solo la 
+    información que el vértice(proceso) escribio en memoria (la $\delta$ es una función de equidad de género).\\
+    Sea $T'$ una tarea definida por $\langle$ $\mathcal{I}',\mathcal{O}',\Delta'$ $\rangle$ con $\mathcal{I}'$
+    y $\mathcal{O}'$ gráficas cromáticas, tal que la tarea $T'$ es la versión del problema $T$ en el modelo 
+    cromático.\\
+    ¿Siempre existe una $\delta$ que resuelva esta $T'$?, podemos construir una $\delta'$ que resuelve la tarea $T'$
+    a partir de la $\delta$, simplemente le quitamos los colores a los vértices y se los pasamos a la función $\delta$.
+    Por lo tanto $\delta'$ resuelve la tarea $T'$.\\
+    Por lo tanto el modelo cromático tiene el mismo poder de computo que el modelo anónimo.
+    
   }
 \end{enumerate}
 \end{document}
