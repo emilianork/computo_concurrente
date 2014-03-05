@@ -57,10 +57,9 @@
       conteste si tiene o no solución en el modelo iterado wait-free visto en clase, y si la tiene,
       conteste en a lo más cuantas capas. Analiza su correctez y complejidad (como función del tamaño
       de la entrada), suponiendo que para cada vértice $v$ de $\mathcal{I},\Delta(v)$ consiste de 
-      un conjunto de a lo más $k$ vértices, para una constante k.
+      un conjunto de a lo más $k$ vértices, para una constante k.\\
     }
 
-    \textbf{SOLUCIÓN}\\
     Primero veamos el algoritmo verificador.\\
     En clase vimos el Teorema Principal para tareas de dos procesos: Dada una tarea $(\mathcal{I},\mathcal{O},\Delta)$
     tiene solución en el modelo iterado por capas si y solo si existe un mapeo portador conexo
@@ -109,7 +108,7 @@
     El algoritmo es correcto, ya que tanto $\mathcal{I}$, como $\mathcal{O}$ son finitas, es decir, ambos recorridos terminarán; además
     cumplirá con descubrir si algún $\Delta(e)$ no es conexo, y con esto ver si $\Delta$ es un mapeo portador conexo. Note que, por
     hacer el recorrido BFS o DFS nos vamos tomando aristas adyacentes, verificando de igual manera que si $v\subseteq\sigma\cap\tau$ entonces
-    $\Delta(v)\subseteq\Delta(\sigma)\cap\Delta(\tau)$.
+    $\Delta(v)\subseteq\Delta(\sigma)\cap\Delta(\tau)$.\\
   }
 
 \item {
@@ -120,20 +119,19 @@
       conjunto de entradas en la ejecución es un conjunto $S$, la vista de un proceso es un 
       subconjunto de $S$, y las vistas $S_1,S_2,...,S_k$ están en la misma ejecución si y solo si
       todas son subconjuntos de $S$, y se pueden ordenar de forma que cada una este contenida o
-      sea igual a la siguiente).
+      sea igual a la siguiente).\\
     }
 
-    \textbf{SOLUCIÓN}\\
     Primero veamos los casos sencillos. Supongamos que $S = \{S_{0}, S_{1}\}$, el complejo de entrada
     quedaría:\\
     \begin{center}
       \includegraphics[scale=0.5]{input.png}
-      \\\tiny{Complejo de entrada anónimo con $|S| = 2$.}
+      \\Complejo de entrada anónimo con $|S| = 2$.
     \end{center}
     Ahora, después de una ronda de comunicación, este complejo queda de la siguiente manera:\\
     \begin{center}
       \includegraphics[scale=0.5]{input_1.png}
-      \\\tiny{Complejo después de una ronda de comunicación con $|S| = 2$.}
+      \\Complejo después de una ronda de comunicación con $|S| = 2$.
     \end{center}
     El vértice $\{S_{0}\}$, representa a todos los procesos que tienen vista $\{S_{0}\}$ (análogo para $\{S_{1}\}$),
     y la arista $(\{S_{0}\}, \{S_{0},S_{1}\})$, representa la ejecución donde al menos un proceso tiene vista
@@ -152,7 +150,7 @@
     vista de cardinalidad $d + 1$. Después todos los vértices se unirán al vértice central.\\
     Observe como esto se cumple en el ejemplo con $|S| = 3$.\\
     Dado que los simplejos se van subvididiendo y las vistas de sus vértices centrales tienen vista con cardinalidad $d + 1$, entonces
-    se puede ordenar por contención.
+    se puede ordenar por contención.\\
   }
   
 \item{
@@ -166,7 +164,7 @@
 
     La idea de la demostración es dada la tarea $T$ en el modelo anónimo, debemos de dar una serie de mapeos
     que conviertan la tare $T$ a una tare $T'$ en el modelo cromático y al final contruir una $\delta'$ que resuelva
-    la tarea $T'$
+    la tarea $T'$.\\
 
     Demostración:\\
     Sea $T$ una tarea definida por $\langle$ $\mathcal{I},\mathcal{O},\Delta$ $\rangle$ con $\mathcal{I}$
@@ -213,7 +211,7 @@
     Es fácil ver que el mapeo $\delta'$ es un mapeo portador, por que ''conserva'' la monotocidad que aporta $\delta$, esto es:
     si $\sigma$ y $ \tau \in \Delta'(\mathcal{I}')$, tal que $\tau \subseteq \sigma$ entonces $\delta'(\tau) \subseteq \delta'(\sigma)$.\\
 
-    Por lo tanto $\delta'$ resuelve la tarea $T'$. Por lo tanto el modelo cromático tiene el mismo poder de compúto que el modelo anónimo. 
+    Por lo tanto $\delta'$ resuelve la tarea $T'$. Por lo tanto el modelo cromático tiene el mismo poder de compúto que el modelo anónimo. $_\square$\\
   }
 \end{enumerate}
 \end{document}
