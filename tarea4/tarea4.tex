@@ -47,7 +47,7 @@
     Lo que indica que $forall$ $v$,$u$ $\in G$, tal que $v \subseteq u$ $Rightarrow$ 
     $\delta(v)$ $\subseteq$ $\delta(u)$, y dado que $\Xi$ es un mapeo portador, entonces
     se cumple que $\Xi(\delta(v))$ $subseteq$ $\Xi(\delta(u))$, por lo tanto la composición
-    $\Xi \circ \delta$ es un mapeo portador $_\blacksquare$.\\
+    $\Xi \circ \delta$ es un mapeo portador. $_\square$\\
         
   }
   
@@ -133,21 +133,56 @@
       Considera modelos para dos procesos, iterado y wait-free.\\
     }
 
+    La idea de la demostración es dada la tarea $T$ en el modelo anónimo, debemos de dar una serie de mapeos
+    que conviertan la tare $T$ a una tare $T'$ en el modelo cromático y al final contruir una $\delta'$ que resuelva
+    la tarea $T'$
+
     Demostración:\\
     Sea $T$ una tarea definida por $\langle$ $\mathcal{I},\mathcal{O},\Delta$ $\rangle$ con $\mathcal{I}$
     y $\mathcal{O}$ gráficas anónimas. Por hipótesis decimos que existe una $\delta$ un mapeo portador
     tal que resuelve la tarea dada.
-    ¿Qué un modelo sea anónimo que quiere decir?, visto de otra forma, podemos decir que la $\delta$ que
-    resuelve el modelo anónimo tiene la caracteristica de no importarle que vértice es, sino solo la 
-    información que el vértice(proceso) escribio en memoria (la $\delta$ es una función de equidad de género).\\
-    Sea $T'$ una tarea definida por $\langle$ $\mathcal{I}',\mathcal{O}',\Delta'$ $\rangle$ con $\mathcal{I}'$
-    y $\mathcal{O}'$ gráficas cromáticas, tal que la tarea $T'$ es la versión del problema $T$ en el modelo 
-    cromático.\\
-    ¿Siempre existe una $\delta$ que resuelva esta $T'$?, podemos construir una $\delta'$ que resuelve la tarea $T'$
-    a partir de la $\delta$, simplemente le quitamos los colores a los vértices y se los pasamos a la función $\delta$.
-    Por lo tanto $\delta'$ resuelve la tarea $T'$.\\
-    Por lo tanto el modelo cromático tiene el mismo poder de computo que el modelo anónimo.
-    
+    Para esto debemos dar la tarea $T'$ definida por $\langle$ $\mathcal{I}',\mathcal{O}',\Delta'$ $\rangle$
+    tal que es la representación de la tarea $T$ en el modelo cromático.\\
+    Para esto vamos a definir $\Phi$ $:$ $\mathcal{I}$ $\xrightarrow{}$ $\mathcal{I}'$ de la siguiente forma:\\
+
+    \begin{itemize}
+      \item{
+          $\Phi(v_i) = (v_{ia},v_{ib})$
+        }
+         \item{
+             $\Phi((v_i,v_j)) = (v_{ia},v_{jb}), (v_{ib},v_{ja})$
+        }
+    \end{itemize}
+
+    Dicho de otra forma, cuando $\Phi$ recibe un vértice con etiqueta i, este lo mapea a una arista con dos vértices
+    con etiquetas i y con color distinto entre si(a y b son los colores), cuando $\Phi$ recibe una arista, entonces la 
+    mapea a dos aristas con vertices con etiquetas iguales, agregando color a los vértices.
+
+    \begin{center}
+      \includegraphics[scale=0.6]{5_input.jpg}
+      \\Ejemplo de mapeo de una gráfica anónima con vertices $v_1$ y $v_2$ a una gráfica cromática.
+    \end{center}
+
+    Es fácil definir una función $\Gamma$ definida de igual forma que $\Phi$(las mismas reglas para vertices y para aristas),
+    pero con dominio e imagen
+    $\Gamma$ $:$ $\mathcal{O}$ $\xrightarrow{}$ $\mathcal{O}'$\\
+    Por úlitmo definimos el mapeo portador $\Delta'_i$ = $\Phi'_i \circ \Delta_i$ donde $\Phi'_i$ es una función que apartir de un vértice
+    anónimo con la etiqueta correspondiente a la ronda $i$ genera una subgráfica cromática con todas las posibilades del conjunto de
+    vértices que representa el vértice anónimo, y si recibe una arista, entonces mapea la arista a una subgráfica cromática con todas 
+    las posibilidades del conjunto de vértices que representa el vértice anónimo.
+
+    \begin{center}
+      \includegraphics[scale=0.4]{5_Delta.jpg}
+      \\Ejemplo de la función $\Phi'$ de la primera ronda de la gráfica anónima del ejemplo anterior con vertices $v_1$ y $v_2$ a una gráfica cromática.
+    \end{center}
+
+    Por último falta definir un mapeo $\delta'$ que resuelve la $T'$ que previamente contruimos, ésta la contruimos como 
+    $\delta'(v_{ic}) = \delta(v_{i}) +  c$, donde $c$ es el color del vértice y la operación $+ c$, es concatenarle el color que pierde
+    del mapeo $\delta$.\\
+    Es fácil ver que el mapeo $\delta'$ es un mapeo portador, por que ''conserva'' la monotocidad que aporta $\delta$, esto es:
+    si $\sigma$ y $ \tau \in \Delta'(\mathcal{I}')$, tal que $\tau \subseteq \sigma$ entonces $\delta'(\tau) \subseteq \delta'(\sigma)$.\\
+
+    Por lo tanto $\delta'$ resuelve la tarea $T'$. Por lo tanto el modelo cromático tiene el mismo poder de compúto que el modelo anónimo. 
   }
 \end{enumerate}
 \end{document}
