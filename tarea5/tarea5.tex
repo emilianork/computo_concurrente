@@ -1,0 +1,102 @@
+\documentclass{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage{ upgreek }
+
+\usepackage{listings}
+
+\linespread{1.2}
+
+\title{ Computación Concurrente \\ \Large{Tarea 5}
+\author{
+  Diego Goméz Montesinos
+  \and
+  José Emiliano Cabrera Blancas
+  }
+\date{11 marzo 2014}
+}
+\begin{document}
+\maketitle
+\begin{enumerate}
+  
+\item{
+    \textsl{
+      Recuerden la platica de Borzoo sobre \textit{program
+        repair}. Encuentra un algoritmo polinomial que repare la
+      secuencia de estados, en el caso de una sola condición de
+      progreso $\square$ (P $\Rightarrow$ $\triangle$Q), en donde hay
+      un ciclo y sólo puedes quitar transiciones. Demuestra que es
+      correcto y que es polinomial.
+    }
+  }
+
+  \item{
+      \textsl{
+        Explicar por qué el proble de encontrar un ciclo que pase por
+        2 vértices dados es NP-Completo. (Solo dar un esbozo de la
+        prueba)
+      }
+    }
+
+  \item{
+      \textsl{
+        Recordemos ahora el modelo de memoría compartida wait-free y
+        asíncrono para n procesos. El algoritmo que ejecutan los
+        procesos en primera instancia fue:
+      }
+      \begin{lstlisting}[frame=single,mathescape]
+Alg (id):
+        r := -1
+        view := id
+   loop:
+        r  := r+1
+        mem[r] := write(view)
+        $\upchi$ := scan(mem[r])
+        view := conjunto de id's en $\upchi$
+   until | view | = n-r
+   output view
+      \end{lstlisting}
+      \textsl{
+        Después vimos una modificación al algoritmo, en el cual un
+        proceso ''no olvida'' si en una iteración anterior vio a algún
+        otro proceso. Cambiamos el código de la siguiente manera:
+      }
+\begin{lstlisting}[frame=single,mathescape]
+AlgNoOlvida (id):
+        r := -1
+        view := id
+   loop:
+        r  := r+1
+        mem[r] := write(view)
+        $\upchi$ := scan(mem[r])
+        view := view $\cup$ id's en $\upchi$
+   until | view | >= n-r
+   output view
+      \end{lstlisting}
+      \textsl{
+        Demuestra que los dos algoritmos son correctos y que cumplen
+        la propiedad de que las vistas de los procesos están
+        contenidas de acuerdo al orden en que los procesos terminan su
+        iteración. (i.e. el proceso j terminó después que el proceso
+        k, entonces la vista del proceso j esta contenida en la vista
+        del proceso k.)
+      }
+    }
+
+  \item{
+      \textsl{
+        Hagan un resumen de la plática sobre consenso de no más de 2
+        páginas de la platica de Michel Raynal.
+      }
+    }
+    
+\end{enumerate}
+\end{document}
