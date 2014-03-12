@@ -137,20 +137,39 @@ predicado invariante y hacer esos estados inalcanzables.\\
 Por último repitimos otra vez todos los pasos anteriores descritos hasta
 terminar con la ejecución del programa.\\
 
-El tiempo de ejecición claramente es polinomial puesto que en la
-descripcion anterior vamos describiendo pasos que son polinomiales y
-se repiten un numero polinomial de pasos.\\
-El algoritmo es correcto, por que en cada paso nos vamos asegurando de
-no agregar nuevas transiciones que lleven al programa aun
-$deadlock$. Y vamos agregando nuevas transiciones cuando hay fallas
-nuevas.
+Ahora que ya entendimos como funciona el algoritmo de Borzoo, podemos
+utilizarlo para crear nuestro propio algoritmo para resolver el
+problema dado.\\
+La entrada del algoritmo es una secuencia de estados $T_p$ que
+contiene un ciclo y una condición invariante $\square$ (P
+$\Rightarrow$ $\triangle$Q).
+La salida del algoritmo es la secuencia de estados $T_{p'}$ y una
+condición invariante $\square$ (P$\Rightarrow$ $\triangle$Q).\\
+El algoritmo es el siguiente:
+\begin{enumerate}
+  \item{Detecta la transición $s\rightarrow s'$, donde $s$ es el
+      primer estado del ciclo.
+    }
+  \item{Elimina las transiciones que lleven a $s$, de tal forma que
+      $s$ sea inalcanzable para cualquier ejecución del programa}
 
+  \item{Regresa la secuencia de estados nuevo que se genero.} 
+\end{enumerate}
 
+Elminar las transiciones que lleven a $s$ claramente es polinomial,
+por lo que la complejidad del algoritmo recae en encontrar la
+transición $s \rightarrow s'$. Pero encontrar un ciclo en una grafica
+dirigida se puede resolver en tiempo polinomial, por lo tanto el
+algoritmo tiene complejidad polinomial.\\
 
-  }
+El algoritmo es correcto por que al no generar nuevas transiciones el
+predicado invariante nunca se ve afecto y al hacer inalcanzable el
+$deadlock$, nos garantiza que no habra una ejecución de $T_{p'}$ que
+caiga en el ciclo.
+}
 
-  \item{
-      \textsl{
+\item{
+  \textsl{
         Explicar por qué el proble de encontrar un ciclo que pase por
         2 vértices dados es NP-Completo. (Solo dar un esbozo de la
         prueba)
@@ -198,16 +217,39 @@ AlgNoOlvida (id):
         contenidas de acuerdo al orden en que los procesos terminan su
         iteración. (i.e. el proceso j terminó después que el proceso
         k, entonces la vista del proceso j esta contenida en la vista
-        del proceso k.)
+        del proceso k.)\\
       }
-    }
 
-  \item{
-      \textsl{
-        Hagan un resumen de la plática sobre consenso de no más de 2
-        páginas de la platica de Michel Raynal.
-      }
-    }
-    
+      Por demostrar:\\
+      Ambos algoritmos cumple con la siguiente propiedad:\\
+      Las vistas de los procesos estan contenidas de acuerdo al orden
+      en que los preceos termina su iteración.
+
+      Demostración:
+
+      Por contradicción sobre el algoritmo que olvida.\\
+      Suponemos que existe un proceso $P_k$ que terminó después de que
+      terminara el proceso $P_j$ ($P_j$ $<$ $P_k$)y la vista $view_k$ no esta contenida
+      en la vista
+      $view_j$, lo que implica que $\exists$ $P_i$ un proceso, tal que esta
+      contenido en $view_k$ y no en $view_j$. Pero si $P_i$ no esta
+      contenido en la vista $view_j$ quiere decir que el proceso $P_i$
+      termino antes que $P_j$ y despues de $P_k$($P_k$ $<$ $P_i$ $<$
+      $p_j$ ),
+      pero eso querria
+      decir que $P_j$ termino despues que $P_k$($P_k$ $<$ $P_j$).
+      Lo cual es una
+      contradicción a la hipotesis, por lo tanto si $P_k$ terminó
+      después que el proceso $P_j$, entonces la vista $view_j$ esta
+      contenida en la vista $view_k$\\
+      Es claro ver que la demostración para este algoritmo funciona de
+      igual forma para el algoritmo que no olvida, por que se sustenta
+      en el hecho de que si un proceso no aparece dentro de la vista
+      de otro, quiere decir que termino antes que él.\\
+      Por lo tanto ambos algoritmos son correctos y cumplen con la
+      propiedad antes descrita.
+      
+      
+    }    
 \end{enumerate}
 \end{document}
