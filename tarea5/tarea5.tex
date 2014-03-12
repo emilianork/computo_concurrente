@@ -96,6 +96,84 @@ AlgNoOlvida (id):
         Hagan un resumen de la plática sobre consenso de no más de 2
         páginas de la platica de Michel Raynal.
       }
+
+      \textbf{PROBLEMA DEL CONSENSO PARA SISTEMAS SÍNCRONOS}\\
+      Primero vimos el modelo síncrono de secuencia de rondas.
+      En este modelo tenemos lo siguiente:
+      \begin{itemize}
+        \item Un conjunto $\Uppi$ de n procesos $\{p_{1}, p_{2}, ..., p_{n}\}$
+        \item Una red de comunicación confiable.
+        \item Una ejecución consiste en una recuencia de rondas.
+        \item Una variable global $r$ que será el número de ronda
+        \item Cada proceso $p_{i}$ es informado cada vez que $r$ incrementa.
+      \end{itemize}
+      Cada ronda está hecha de tres fases consecutivas: Fase de envío, Fase de recibo y fase de procesamiento.
+      En este modelo tenemos una propiedad fundamental (de sincronía) que es:\\
+      " Un mensaje $m$ enviado por un proceso $p_{i}$ a un proceso $p_{j}$ en la ronda
+      $r$, es recibido por $p_{j}$ en la misma ronda $r$".\\
+      Ahora, que pasa si consideramos errorres o fallas en los procesos.\\
+      En el modelo de fallos en los procesos podemos considerar estas cosas:
+      \begin{itemize}
+        \item Proceso defectuoso. Es aquel que se desvía de su algoritmo.
+        \item Proceso correcto. Es aquel que nunca se desvía de su algoritmo.
+        \item $f$, es el máximo número de procesos defectuosos.
+        \item Tenemos que definir como un proceso puede desviarse de su especificación.
+      \end{itemize}
+       En este último tenemos estas opciones: Falla de ruptura: falla en el que $p_{i}$
+       se detiene prematuramente; Falla por omisión: $p_{i}$ no envía o recibe 
+       mensajes; Falla Bizantina: Se comporta arbitrariamente.\\
+       Estos fallos tienen una jerarquía por su severidad:\\
+       Falla de ruptura $<$ Falla por omisión $<$ Falla Bizantina.\\
+       Ahora, enunciaremos el problema del consenso con algunas variantes:\\
+       El problema del consenso es que todos los procesos deciden algún valor que
+       tenga coherencia. Esto está dicho en términos de las siguientes propiedades:\\
+       \begin{itemize}
+        \item { T - Terminación. Todo proceso correcto eventualmente decide. }
+        \item { V - Validez. Si un proceso decide $v$, entonces $v$ fué propuesto. }
+        \item { A - Acuerdo. Dos procesos correctos nunca deciden diferente. }
+        \item { UA - Acuerdo Uniforme. Dos procesos, correctos o no, nunca deciden
+        diferente. }
+        \item { WV - Validez Débil. Si todos los procesos correctos propusieron
+        el mismo valor $v$, entonces $v$ es decidido. }
+      \end{itemize}
+      Con esto tenemos tres tipos de problemas de concenso: El clásico (T + A + V)
+      que se puede resolver, con fallas de ruptura y de omisión; el uniforme (T + UA + 
+      V) que se puede resolver igual que el anterior y el débil (T + A + WV) que solo
+      puede resolverse con fallas Bizantina.\\
+      Para resolver el caso de falla por ruptura ocupamos una estrategia de conjuntos
+      inundados sobre una secuencia de rondas. En cada ronda $r$: se envúa la nueva
+      información obtenida durante la ronda anterior $r - 1$. El número de rondas
+      que correrá es de $f + 1$ (note que cualquier cadena de $f + 1$ procesos incluye
+      un proceso correcto).\\
+      El algoritmo es fácil, simplemente se va llenando un vector con lo que ya se vió
+      y al final todos verán lo mismo y pueden decidir el primer valor distinto de nulo
+      que todos ven.\\
+      Analizando la correctez del algoritmo:
+      \begin{itemize}
+        \item { Terminación. Se sigue de la sincronía en la ronda $f + 1$. }
+        \item { Validez. Se sigue de que $\forall(i, k): V_{i}[k]$ es $v_{k}$ ó
+        $\bot$. }
+        \item { Acuerdo Uniforme. Hay que demostrar que si $p_{i}$ y $p_{j}$ deciden
+        valores tales que $V_{i} = V_{j}$ al final de la ronda $f + 1$.\\
+        Sea  $V_{i}[k] = v_{k} \neq \bot$. Así que $p_{i}$ ve a $v_{k}$ en alguna
+        ronda $r$. Entonces $r$ tiene dos opciones:
+        \begin{itemize}
+          \item {$r < f + 1$: entonces $p_{i}$ envió $(v_{k}, k)$ a $p_{j}$ en
+          la ronda $r + 1 \leqslant f + 1$. }
+          \item {$r = f + 1$: de $p_{k}$ a $p_{i}$, el par $(v_{k}, k)$ llego a travéz
+          de la cadena de $f + 1$ procesos, y al menos uno de ellos es correcto,
+          digamos $p_{x}$. Ahora, $p_{x}$ obtiene $(v_{k}, k)$ en la ronda $r' < f + 1$
+          y es enviado a $p_{j}$ en la ronda $r' + 1 \leqslant f + 1$.}
+        \end{itemize}
+        }
+      \end{itemize}
+      Analizando el costo: tiempo: $f + 1$, sea $b = nb$ el número de bits para
+      codificar un valor: un par $(v_{i}, i)$ requiere $b + log_{2}n$ bits, un
+      proceso puede mandar a lo más una vez a otros procesos, la complejidad de
+      la comunicación entonces es de:\\
+      $n^{2}(n - 1)(b + log_{2}n)$
+
+
     }
     
 \end{enumerate}
