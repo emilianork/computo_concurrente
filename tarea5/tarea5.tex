@@ -34,8 +34,119 @@
       secuencia de estados, en el caso de una sola condición de
       progreso $\square$ (P $\Rightarrow$ $\triangle$Q), en donde hay
       un ciclo y sólo puedes quitar transiciones. Demuestra que es
-      correcto y que es polinomial.
+      correcto y que es polinomial.\\
     }
+ 
+    El algoritmo que Borzoo desarrolla es una heurística que abarca
+    una clase de programas, esto es por que se sabe que el problema más
+    general es NP-Completo. La entrada del algoritmo es la siguiente,
+    la transicion de un programa con predicado $T_p$, un predicado
+    invariante $I_p$, un conjunto de transiciones fallidas $F$ y un
+    predicado de transicion malo $SPEC_{bt}$ y la salida a este
+    algorítmo es un programa de transiciones con predicado $T_{p'}$
+    con su predicado invariante $I_{p'}$.\\
+    
+\begin{lstlisting}[frame=single,mathescape,numbers=left,emph={repeat,until,return},emphstyle=\textbf]
+ms := BWReachStates(Guard(F $\wedge$ $SPEC_{bt}$), F)
+$I_{1}$, fte := $I_p$ - ms, false
+mt := ($\langle$ms$\rangle$' $\vee$ $SPEC_{bt}$) $\wedge$ Group($\neg$ms)
+repeat
+   $I_2$ := $I_1$
+   repeat
+      $S_1$, $T_2$ := $I_1$, $T_1$
+      repeat
+         $S_2$ := $S_1$
+         $S_1$ := FWReachStates($I_1$, $T_1$ $\vee$ F)
+         $S_1$ := $S_1$ - fte
+         mt := mt $\wedge$ $S_1$
+         $T_1$ := $T_1$ - Group($T_1$ $\wedge$ mt)
+      until ($S_1$ = $S_2$)
+      ds := $S_1$ $\wedge$ $\neg$Guard($T_1$)
+      $T_1$ := $T_1$ $\vee$ AddRecovery(ds,$I_1$, $S_1$, mt)
+      ds := $S_1$ $\wedge$ $\neg$Guard($T_1$)
+      $T_1$, fte :=  Eliminate(ds,$T_1$,$I_1$,$S_1$,$F$,false,false)
+   until ($T_1$ = $T_2$)
+   $T_1$, $I_1$ := ConstructInvariant($T_1$,$I_1$,fte)
+until ($T_1$,$I_2$)
+$I_{p'}$,$T_{p'}$ := $I_1$, $T_1$
+return $I_{p'},$ $T_{p'}$
+\end{lstlisting}
+
+En la primera línea utilizamos la función $BWReachStates$ como una
+caja negra(esta función fue tratada en otro trabajo y podemos decir
+que su tiempo de procesamiento es polinomial), $BWReachStates$ sirve 
+para obtener un $state$ $predicate$ donde las fallas por si solas
+incurren en una violación al
+predicado, de forma más explicita $Guard(F \wedge SPEC_{bt})$ son los
+estados en donde directamente las fallas violan el $safety$ $predicate$
+y la caja negra explora solamente hacia atrás buscando transiciones 
+fallidas($FWReachStates$ funciona de forma parecida, buscando hacia
+adelante en lugar de hacia atrás).\\
+En la línea dos, como ya obtuvimos un predicado que nos obtiene estados
+malos, entonces procedemos a retirar $ms$ para que nuestro programa de
+salida sea tolerante a los fallos que hasta el momento hemos encontrado.\\
+En la línea tres calculamos la variable $mt$ que son los predicados
+que el programa que queremos hacer tolerante a fallos no debe ejecutar.\\
+El primer $loop$ sirve para recalcular el predicado invariante, el
+segundo sirve para recalcular el predicado de transición y el tercer y
+último $loop$ recalcula el $fault$ $span$.\\
+Necesitamos recalcular el $fault$ $span$ en cada iteración del segundo
+$loop$ por que nuestro algoritmo añade y remueve transiciones que
+originan los $fault$ $span$, por lo que nuevos estamos podrían ser
+alcanzados y otros inalcanzables.\\
+Es importante tener en claro que recalculamos el $fault$ $span$
+comenzado una exploracion de los estados donde la invariante $I_1$ es
+verdadera y aplicando las transiciones del predicado en la repesencia
+de fallas(i.e $T_1$ $\wedge$ $F$) usando la funcion $FWReachStates$,
+que previamente ya se habia comentado, $fte$ contiene las transiciones
+malas previamente calculadas, por lo que procedemos a removerlas de
+$S_1$.
+Debemos notar que una condicion necesaria para que una transicion sea
+no segura, es que su transicion origen sea un $fault$ $span$, en otro
+caso la transicion puede existir en el predicado del programa tolerante
+a fallos incluso si este se encuentre dentro de $SPEC_{bt}$ (linea 12).\\
+Una vez que identificamos las transiciones no seguras, las quitamos
+del predicado del programa (linea 13).\\
+Ahora que hemos removido algunas transiciones se puede dar el caso en
+donde se generen $deadlock$ que podemos componer de dos formas,
+añadiendo un camino para recuperar la ejecucion del programa o
+eliminando transiciones para que el $deadlock$ sea inalcanzable para
+el programa. Estas dos operaciones se llevan acabo en las funciones
+$AddRecovery$ y $Eliminate$.\\
+La explicación de forma intuitva de como implementar $AddRecovery$ es
+la siguiente: una vez detectado el $deadlock$ procedemos a crear una
+nueva transicion que conecte el $deadlock$ con las transiciones
+validas, si esta transición crea un ciclo en los estados, entonces no
+se añade y se vuelve a buscar otra transicion que sea posible. Para
+implemetar la busqueda de posibles ciclos nuevos, el autor Borzoo
+incorpora el enfoque de Emerson y Lei.\\
+El procedimiento para eliminar nuevos estados es, primero si ya todos
+los estados $deadlock$ en $ds$ ya fueron considerados para eliminarse,
+entonces $Elminate$ regresa los estados $deadlock$. Por otro lado si la
+transición es alcanzable por una transicion fallida, entonces
+regresamos al estado fuente del predicado y lo hacemos
+inalcanzable. Esto es por que el programa no tiene ningun control
+sobre cuando las fallas puede ocurrir.\\ 
+Durante el proceso de eliminar los $deadlocks$ nos encontramos con que
+algunas de esas transiciones pueden tener conflico con el predicado
+invariate, marcando estas transiciones como $OffendingStates$.\\
+Después de eliminar los $deadlocks$ procedemos a recalcular la
+invariante con la función $ConstructInvariant$, esta funcion tiene
+como proposito remover los estados del conjunto $OffendingStates$ del
+predicado invariante y hacer esos estados inalcanzables.\\
+Por último repitimos otra vez todos los pasos anteriores descritos hasta
+terminar con la ejecución del programa.\\
+
+El tiempo de ejecición claramente es polinomial puesto que en la
+descripcion anterior vamos describiendo pasos que son polinomiales y
+se repiten un numero polinomial de pasos.\\
+El algoritmo es correcto, por que en cada paso nos vamos asegurando de
+no agregar nuevas transiciones que lleven al programa aun
+$deadlock$. Y vamos agregando nuevas transiciones cuando hay fallas
+nuevas.
+
+
+
   }
 
   \item{
