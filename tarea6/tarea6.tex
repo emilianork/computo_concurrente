@@ -39,31 +39,54 @@
   
   \item{
       \textsl{
-    Sea $\mathcal{S}$ un conjunto de simplejos de $\mathcal{A}$ un
-    complejo de $\mathcal{S}$ $\in$ $\mathcal{A}$. Investiga las
+    Sea $\mathcal{S}$ un conjunto de simplejos en $\mathcal{A}$ un
+    complejo tal que $\mathcal{S}$ $\in$ $\mathcal{A}$. Investiga las
     definiciones formales, describe cada una con tus propias palabras
     e incluye las referencias consultadas:
     }
     \begin{itemize}
       
     \item{
-        \textsl{
-          Stº($\mathcal{S}$, $\mathcal{A}$)}
+          \[
+           Stº(\mathcal{S}, \mathcal{A}) =  \bigcup_{\mathcal{S}
+             \subseteq \tau} Int \tau 
+          \]
+
+          Donde $Int\tau$ es el interior de los simplejos $\tau$.\\\\
+          Podemos pensar que la operación $open$ $star$ de un simplejo
+          $\mathcal{S}$ es la union de
+          todos los simplejos $\tau$ que contienen a $\mathcal{S}$
+          tal que le quitamos la frontera a los simplejos $\tau$
+          (como si fueran intervalos abiertos).
       }
       
     \item{
-        \textsl{
-          St($\mathcal{S}$, $\mathcal{A}$)}
-      }
+        \[
+           St(\mathcal{S}, \mathcal{A}) =  \bigcup_{\mathcal{S}
+             \subseteq \tau} \tau 
+           \]
+           Intuitivamente podemos ver que la operación $star$ de un
+           simplejo $\mathcal{S}$ es igual que la operación $open$
+           $star$ pero sin quitarle la frontera a los simplejos
+           $\tau$(como si fueran intervalos cerrados).
+         }
 
-    \item
-      \textsl{
-        {Lk($\mathcal{S}$, $\mathcal{A}$)}
+    \item{
+        \[
+        Lk(\mathcal{S}, \mathcal{A})
+        \]
+        Es el subcomplejo de $\mathcal{A}$ que consiste de todos los
+        simplejos en $St(\mathcal{S},\mathcal{A})$ que no tienen
+        vertices en comun con $\mathcal{S}$,
       }
 
     \item{
-        \textsl{
-          Dl($\mathcal{S}$,$\mathcal{A}$)}
+        \[
+        Dl(\mathcal{S},\mathcal{A})
+        \]
+        La operación $deletion$ de $\mathcal{S}$ $\in$ $\mathcal{A}$
+        es el sucomplejo de $\mathcal{A}$ que consiste de todos los
+        simplejos que no tienen vertices en común con $\mathcal{S}$.
         }
     \end{itemize}
 
