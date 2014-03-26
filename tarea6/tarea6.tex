@@ -35,22 +35,35 @@
       http://www.technologyreview.com/news/506466/given-tables-but-not-teachers-ethiopian-children-teach-themselves.\\
     } 
 
-    ``Una laptop por niño'', u OLPC (por sus siglas en inglés, ``Once Laptop Per Child''), es una organización que regala
-    computadoras de bajo costo a escuelas para el apoyo de la educación tecnológica a países en desarrollo.\\\\
-    Esta organización realizó un experimento: regaló tablets a niños de las comunidades etiopes Wonchi y Wolonchete, que no saben leer,
+    ``Una laptop por niño'', u OLPC (por sus siglas en inglés, ``Once
+    Laptop Per Child''),  es una organización que regala
+    computadoras de bajo costo a escuelas para el apoyo de la
+    educación  tecnológica a países en desarrollo.\\\\
+    Esta organización realizó un experimento: regaló tablets a niños
+    de las comunidades etiopes Wonchi y Wolonchete, que no saben leer,
     ni escribir, y que nunca han usado una tablet.\\
-    Las tablets venían pre-cargadas con contenido educativo, y se puso un sistema de carga eléctrica solar.\\\\
-    El experimento inició cuando los investigadores de la organización dejaron cajas cerradas con las tablets dentro,
-    y los niños lograron encontrar, en menos de 10 minutos, la manera de encender los dispositivos.\\
-    Después de algunos meses, los investigadores se percataron de que los niños habían podido activar la webcam
-    y habían modificado la apariencia del escritorio de la tablets, aunque ambas funcionalidades vinieran
+    Las tablets venían pre-cargadas con contenido educativo, y se puso
+    un sistema de carga eléctrica solar.\\\\
+    El experimento inició cuando los investigadores de la organización
+    dejaron cajas cerradas con las tablets dentro,
+    y los niños lograron encontrar, en menos de 10 minutos, la manera
+    de encender los dispositivos.\\
+    Después de algunos meses, los investigadores se percataron de que
+    los niños  habían podido activar la webcam
+    y habían modificado la apariencia del escritorio de la tablets,
+    aunque ambas funcionalidades vinieran
     desactivadas por defecto.\\
-    Al respecto, Ed McNierney, el jefe de tecnología de la OLPC, dice: ``El hecho de que hayan logrado esto
-    es claramente producto de la capacidad creativa, de la capacidad de la curiosidad y de la capacidad del
+    Al respecto, Ed McNierney, el jefe de tecnología de la OLPC, dice:
+    ``El hecho de que hayan logrado esto
+    es claramente producto de la capacidad creativa, de la capacidad
+    de la curiosidad  y de la capacidad del
     descubrimiento que nosotros pensamos escenciales para el aprendizaje''.\\
-    Esto abre un nuevo paradigma en la enseñanza, según la OLPC, que es hacer que los niños sin ningúna instrucción
-    empiecen a aprender con el solo hecho de motivar la curiosidad y la creatividad.\\\\
-    McNierney concluye: ``¿Podríamos darle a niños que no van a la escuela herramientas para aprendizaje sin
+    Esto abre un nuevo paradigma en la enseñanza, según la OLPC, que
+    es hacer que los niños sin ningúna instrucción
+    empiecen a aprender con el solo hecho de motivar la curiosidad y
+    la creatividad.\\\\
+    McNierney concluye: ``¿Podríamos darle a niños que no van a la
+    escuela herramientas para aprendizaje sin
     proveerles escuelas, maestros y libros de texto?''.\\\\
   }
   
@@ -90,11 +103,12 @@
 
     \item{
         \[
-        Lk(\mathcal{S}, \mathcal{A})
+        Lk(\mathcal{S}, \mathcal{A}) = Dl(\mathcal{S},\mathcal{A}) \cap
+        St(\mathcal{S}, \mathcal{A})
         \]
         Es el subcomplejo de $\mathcal{A}$ que consiste de todos los
         simplejos en $St(\mathcal{S},\mathcal{A})$ que no tienen
-        vertices en comun con $\mathcal{S}$,
+        vertices en común con $\mathcal{S}$.
       }
 
     \item{
@@ -164,8 +178,81 @@
         resolver un modelo cromático y viceversa.\\
         Considera modelos para tres procesos, iterado y wait-free.\\
       }
-    }
+      La idea de la demostración es dada la tarea $\mathcal{T}$ en el
+      modelo anónimo, debemos dar una serie de mapeos que conviertan
+      la tarea $\mathcal{T}$ a una tarea $\mathcal{T}'$ en el modelo
+      cromático y al final con construir una $\delta'$ que resuelva la
+      tarea $\mathcal{T}'$.\\
+      \\
+      Demostración:\\
+      Sea $\mathcal{T}$ una tarea definida por
+      $\langle\mathcal{I},\mathcal{O},\Delta\rangle$ con $\mathcal{I}$
+      y $\mathcal{O}$ gráficas anónimas. Por hipótesis decimos que
+      existe una $\delta$ mapeo portador tal que resuelve la tarea
+      $\mathcal{T}$. Primero debemos dar la tarea $\mathcal{T}'$
+      definida por $\langle\mathcal{I}',\mathcal{O}',\Delta'\rangle$
+      tal que es la representación de la tarea $\mathcal{T}$ en el
+      modelo crómatico. \\
+      Para esto vamos a definir $\Phi$ $:$ $\mathcal{G}$
+      $\xrightarrow{}$ $\mathcal{G}'$ de la siguiente forma:\\
 
+      \begin{itemize}
+        
+        \item{
+            $\Phi(v_i) = \{\{v_{ia}, v_{ib}, v_{ic}\}\}$
+          }
+
+          \item{
+              $\Phi({v_i,v_j}) =  \{\{v_{ia}, v_{ib}, v_{ic}\},
+              \{v_{ja}, v_{jb}, v_{jc}\}, \{v_{ia}, v_{jb}, v_{ic}\},
+              \{v_{ia}, v_{jb}, v_{jc}\}, $\\
+              $\{v_{ia}, v_{ib}, v_{jc}\},
+              \{v_{ja}, v_{jb}, v_{ic}\}, \{v_{ja}, v_{jb}, v_{ic}\},
+              \{v_{ja},v_{ib}, v_{ic}\}
+              \}$ \\
+            }
+        
+      \end{itemize}
+
+      La función $\Phi$ parece ser muy complicada, pero lo podemos ver
+      de la siguiente forma, $\Phi$ recibe como entrada un
+      subcomplejo de $\mathcal{G}$, tal que si este es un vértice que
+      representa el conjunto de procesos con entrada $v_i$, $\Phi$ lo
+      mapea hacia un complejo que es un triangulo relleno que tiene
+      como vértices procesos con colores diferentes, pero con la misma
+      entrada. Por otro lado si $\Phi$ recibe como un entrada una
+      arista del $\mathcal{G}$, entonces la mapea a un subcomplejo que
+      representa todas las combinaciones de tres procesos con dos
+      posibles entradas diferentes.\\
+      
+      \begin{center}
+        \includegraphics[scale=0.4]{phi_map.png}
+        \\Complejo que resulta cuando la función $\Phi$ recibe una
+        arista de entrada(es importante notar que las caras de este
+        complejo deben estar rellenas).\\
+      \end{center}
+    
+      Ahora que ya tenemos definida $\Phi$, podemos usarla para
+      obtener $\mathcal{I}'$ y $\mathcal{O}'$. Simplemente pasandole a
+      $\Phi$ como entrada los complejos $\mathcal{I}$ y
+      $\mathcal{O}$\\
+
+      Por último el mapeo portador $\Delta'_{i}$ lo definimos como,
+      $\Delta'_{i}$ $=$ $\Phi \circ \Delta_{i}$. Y con esto ya tenemos
+      definida nuestra tarea $\mathcal{T'}$ que representa la tarea
+      $\mathcal{T}'$ en el modelo cromático.
+      Debemos ver ahora que existe una $\delta'$ mapeo portador que
+      resuelve la tarea $\mathcal{T}'$\\
+      Sea $\tau$ $\in$ $\Delta(\mathcal{I})$, definimos $\delta'$
+      como $\delta'(\Phi(\tau))$ $=$ $\Phi(\delta(\tau))$ donde
+      $\Phi(\tau) \in \Delta'$ y $\delta(\tau) \in \mathcal{O}$\\
+      $\delta'$ es un mapeo portador por que la composición de mapeos
+      portadores es un mapeo portador, donde los dos mapeos portadores
+      por definición son $\Phi$ y $\delta$, por lo tanto $\delta'$
+      resuelve la tarea $\mathcal{T'}$, por lo tanto el modelo
+      cromático tiene el mismo poder de computo que el modelo anónimo.$_\square$\\
+    }
+    
   \item{
     \textsl{
       Define y responde una pregunta que te gustaría realizar como
