@@ -113,18 +113,34 @@
 \item{
     \textsl{
       Realiza las operaciones y muestra de manera geométrica el
-      complejo inicial y el resultado después de aplicar la operación,
-      además indica las dimensiones de los simplejos contenidos en el
+      complejo inicial y el resultante después de aplicar la operación.
+      Además indica las dimensiones de los simplejos contenidos en el
       complejo resultante.
     }
 
     \begin{itemize}
     \item{
         \textsl{
-        Sea $\mathcal{K}$ $=$ $\{\{\}, \{0\}, \{1\}, \{2\}, \{3\},
-        \{0,1\}, \{0,2\}, \{1,2\}, \{1,3\}, \{2,3\}, \{0,1,2\},
-        \{1,2,3\} \}$ y sea $\tau$ $=$ $\{0,1\}$. $Dl(\tau,\mathcal{K})$
-      }
+          Sea $\mathcal{K}$ $=$ $\{\{\}, \{0\}, \{1\}, \{2\}, \{3\},
+          \{0,1\}, \{0,2\}, \{1,2\}, \{1,3\}, \{2,3\}, \{0,1,2\},
+          \{1,2,3\} \}$ y sea $\tau$ $=$ $\{0,1\}$. $Dl(\tau,\mathcal{K})$
+        }\\
+       
+        El complejo inicial es:
+        \begin{center}
+          \includegraphics[scale=0.4]{entrada3_1.png}
+          \\ $\mathcal{K}$
+        \end{center}
+        Ahora aplicando, eliminamos a los simplejos: $\{0\}, \{1\}, \{0,1\},
+        \{0,2\}, \{1,2\}, \{1,3\}, \{2,3\}, \{0,1,2\},
+        \{1,2,3\}$ ya que todos ellos comparten vértices con $\tau$, que son
+        $\{0\}, \{1\}$. Por lo tanto la operación da como resultado el complejo:
+        \begin{center}
+          \includegraphics[scale=0.4]{salida3_1.png}
+          \\ $Dl(\tau,\mathcal{K})$
+        \end{center}
+        El complejo resultante $Dl(\tau,\mathcal{K}) = \{\{\}, \{2\}, \{3\}, \{2,3\}\}$,
+        de dimensión $-1, 0, 0$ y $1$ respectivamente.
       }
       
     \item{
@@ -132,7 +148,21 @@
         Sea $\mathcal{K}$ $=$ $\{\{\}, \{0\}, \{1\}, \{2\}, \{3\},
         \{0,1\}, \{0,2\}, \{0,3\}, \{1,2\}, \{1,3\}, \{2,3\}, \{0,1,3\},
         \{0,2,3\}, \{1,2,3\}\}$ y sea $\tau$ $=$ $\{3\}$. $Lk(\tau,\mathcal{K})$
-      }
+      }\\
+
+      El complejo inicial es:
+      \begin{center}
+        \includegraphics[scale=0.4]{entrada3_2.png}
+        \\ $\mathcal{K}$
+      \end{center}
+      Claramente podemos ver que $\mathcal{K} = St(\tau,\mathcal{K})$, entonces
+      el resultado de la operación es:
+      \begin{center}
+        \includegraphics[scale=0.4]{salida3_2.png}
+        \\ $Lk(\tau,\mathcal{K})$
+      \end{center}
+      El complejo resultante $Lk(\tau,\mathcal{K}) = \{\{\}, \{0\}, \{1\}, \{2\}, $
+      $\{0,1\}, \{0,2\}, \{1, 2\}\}$, de dimensión $-1, 0, 0, 0, 1, 1$ y $1$ respectivamente.
     }
 
     \item{
@@ -141,6 +171,19 @@
               2\}, \{0, 3\},\{1, 2\}, \{1, 3\}, \{2, 3\},
               \{0,1,3\},\{0,2,3\},\{1,2,3\}\}$ y sea $\tau$ $=$ $\{0\}$. $St(\tau,\mathcal{K})$
         }
+        El complejo inicial es el mismo que el inciso anterior:
+        \begin{center}
+          \includegraphics[scale=0.4]{entrada3_2.png}
+          \\ $\mathcal{K}$
+        \end{center}
+        De la figura claramente podemos ver que el resultado es:
+        \begin{center}
+          \includegraphics[scale=0.4]{salida3_3.png}
+          \\ $St(\tau,\mathcal{K})$
+        \end{center}
+        El complejo resultante $St(\tau,\mathcal{K}) = \{\{\},\{0\},\{1\},\{2\},\{3\}, \{0,1\}, \{0,2\},
+        \{0,3\}, \{1,3\}, \{2,3\},$\\ $\{0,1,3\},\{0,2,3\}\}$, de dimensión $-1, 0, 0, 0, 0, 1, 1, 1, 1,
+        1, 2,$ y $2$ respectivamente.
       }
 
     \item{
@@ -150,6 +193,24 @@
           y sea $\mathcal{K}_2$ $=$ $\{\{3\}, \{4\}, \{3,
           4\}\}$. $\mathcal{K}_1$ $*$ $\mathcal{K}_2$
         }
+        Los complejos iniciales son:
+        \begin{center}
+          \includegraphics[scale=0.4]{entrada3_4a.png}
+          \\ $\mathcal{K}_1$
+        \end{center}
+
+        \begin{center}
+        \includegraphics[scale=0.4]{entrada3_4b.png}
+        \\ $\mathcal{K}_2$
+        \end{center}
+        El resultado del join es:
+        \begin{center}
+          \includegraphics[scale=0.4]{salida3_4.png}
+          \\  $\mathcal{K}_1$ $*$ $\mathcal{K}_2$
+        \end{center}
+        El complejo resultante es $\mathcal{K}_1$ $*$ $\mathcal{K}_2 = \{\{\},\{0\},\{1\},\{2\},\{3\},\{4\},\{0,1\},\{0,2\},\{1,2\},\\
+        \{3,4\},\{0,3\},\{0,4\},\{1,3\},\{1,4\},\{2,3\},\{2,4\},\{0,1,2\},\{0,3,4\},\{1,3,4\},\{0,1,3\}, \\
+        \{2,3,4\},\{0,2,4\}\}$, de dimensión $-1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2$ y $2$ respectivamente.
       }
     \end{itemize}
   }
