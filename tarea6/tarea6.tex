@@ -5,6 +5,7 @@
 \usepackage[margin=3.1cm]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{amsthm}
 \usepackage{graphicx}
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -323,6 +324,27 @@
       argumentos y claridad en la justificación de la respuesta,
       conocimientos generados y/o reforzados) 3.5 pts.\\
     }
+    La pregunta que decidimos responder fue la siguiente:\\
+    \textsl { Demostrar que el join de dos simplejos es un simplejo. }
+    \begin{proof}
+    Note que podemos ver combinatoriamente a un simplejo como el conjunto
+    potencia de sus vértices. Por ejemplo, si tenemos el conjunto $A = \{0, 1, 2\}$
+    podemos formar el simplejo $K_{A} = \{\emptyset, \{0\}, \{1\}, \{2\}, \{0,1\},\{0,2\},\{1,2\},\{1,2,3\}\}$
+    que coincide exactamente con el conjunto potencia de $A$; es decir,
+    $K_{A} = \mathcal{P}(A)$.\\
+    De lo antes dicho, con la operación join y suponiendo dos simplejos $K_{A}$, $K_{B}$ y
+    $A = V(K_{A})$, $B = V(K_{B})$, es suficiente demostrar que $\mathcal{P}(A) \cup \mathcal{P}(B) = 
+    \mathcal{P}(A \cup B)$.\\
+    Para demostrar lo anterior, debemos demostrar dos cosas: $\mathcal{P}(A) \cup \mathcal{P}(B) \subseteq
+     \mathcal{P}(A \cup B)$ y $ \mathcal{P}(A \cup B) \subseteq \mathcal{P}(A) \cup \mathcal{P}(B) $.\\
+     Demostraremos lo primero.\\\\
+     Sea $x \in \mathcal{P}(A) \cup \mathcal{P}(B)$, esto quiere decir que $x \in \mathcal{P}(A) \vee 
+     x \in \mathcal{P}(B)$. Pero por definición, $\mathcal{P}(A)$ es el conjunto de todos los subconjuntos
+     de $A$, entonces $x \subseteq A \vee x \subseteq B$.\\
+     De lo anterior se sigue que $x \subseteq (A \cup B) \Rightarrow x \in \mathcal{P}(A \cup B)$, y por
+     lo tanto $\mathcal{P}(A) \cup \mathcal{P}(B) \subseteq \mathcal{P}(A \cup B)$.\\
+     Note que demostrar la otra contención es muy fácil pues consiste en seguir la misma prueba pero al revés.
+    \end{proof}
   }
 
 \end{enumerate}
