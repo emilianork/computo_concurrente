@@ -52,9 +52,62 @@
     \textsl{
       Leer la entrevista y biográfica de Leslie Lamport
       http://www.technologyreview. com/news/525621/three-questions-for-leslie-lamport-winner-of-computings-top-prize/
-      \\ http://research.microsoft.com/en-us/news/features/lamport-031814.
-aspx 
+      \\ http://research.microsoft.com/en-us/news/features/lamport-031814.aspx 
     }
+
+    Leslie Lamport.\\
+    Lamport, es un investigador principal en Microsoft Research, que acaba de
+    recibir el premio Alan Turing de la ACM por su trabajo fundamental en teoría
+    de computación distrubuida.\\
+    Su artículo, de 1978, ''Time, Clocks, and the Ordering of Events in a
+    Distributed System'' es uno de los más citados en las Ciencias de la computación.\\
+    Ante el anuncio de la ACM, algunos personajes importantes como Bill 
+    Gates, Butler Lampson, Harry Shum, Nancy Lynch, Ed Lazowska y Bob Taylor
+    reconocieron el trabajo de Lamport.
+    A pesar de los comentarios hechos, Lamport dice: ''No fui tan bueno encontrando
+    soluciones. Pero si fui muy bueno para hacer preguntas''.\\\\
+    El artículo principal de Lamport, ''Time, Clocks'', fue resultado de la
+    introducción que escribió para un artículo llamado ''The Maintenance of Duplicate
+    Databases'', en el argumentaba que se requería el uso de timestamps cuando dos 
+    bases de datos identicas debían preservarse después un cambio hecho por una de
+    ellas.\\
+    Con esto Lamport ubico el problema de identificar el orden temporal de dos eventos 
+    sin una conexión causal, lo cual produjo que entendiera que los timestamps podrían
+    ser generador para obtener el orden de los eventos. Después dedujo que podría
+    generar esto a partir de una máquina de estados.\\\\
+    Otro de sus trabajos importantes es el ''Algoritmo de la panadería'', en el que
+    propone una solución al problema de exclusión mutua en el que se corrompen datos
+    dado que muchos procesos escriben en la misma memoria o que un proceso este leyendo
+    antes de que otro proceso no haya terminado de escribir.\\
+    El nombre del algoritmo viene de cuando en una panadería los clientes toman un
+    boleto numerado cuando entran.\\\\
+    En 1972, Lamport trabajo en un sistema de aviación de la NASA tolerante a fallos.
+    Lamport observó que un fallo, podría ser que un proceso se detenga, o bien un
+    proceso que comete equivocaciones o manda mensajes incorrectos. A estas fallas
+    les llamo Fallas Bizantinas.\\
+    La técnica mas usada es usar tres computadoras separadas para votar, en una
+    regla de la mayoría, Lamport quería demostrar que esto funcionaba y entonces
+    encontró el problema: necesitaba cuatro computadoras para evitar un fallo.\\\\
+    Lamport también definió dos conceptos: ''Seguridad'' que es que nada malo pase
+    y ''Vida'' que es que algo bueno pase.\\
+    Para asegurar estos dos conceptos en un programa, Lamport se dio cuenta que
+    no podía representar un programa con lógica temporal. Pero se le ocurrió en lugar
+    de añadir operadores temporales cambiar las formulas lógicas de tal manera que en
+    lugar de tener un estado, manejaba un par de estados (el actual y el siguiente).\\
+    Con esto pudo crear TLA, una especificación de lenguaje para describir programas
+    y sistemas.
+    Después de que DEC, fuera comprada por Compaq, Lamport se integro a Microsoft,
+    donde sigue trabajando.\\\\
+    En una entrevista hecha a Lamport, donde se le pregunta ''¿Porque es tan
+    importante la computación distribuida?'', ''¿Porque tus algoritmos aún
+    sobreviven?'' y ''¿Que hay de malo en cómo se hace software ahora?'', Leslie
+    destaca que en la computación distribuida no solo se trata de distribuir tareas
+    si no de mantener las cosas coherentes, que su algoritmo Paxos se sigue usando 
+    en Google y en Amazon porque los problemas y nociones de sincronización son los
+    mismos de cuando los desarrolló y que la gente piensa que programar es solo hace
+    código; dice que antes tienes que entender lo que haces, y lo relaciona con alguien
+    que construye un puente sin un plano.\\
+    Concluye que la mejor manera de hacer las cosas es con matemáticas.
   }
 
 \item{
