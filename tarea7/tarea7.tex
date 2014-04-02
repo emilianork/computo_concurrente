@@ -9,6 +9,8 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
+\usepackage{ stmaryrd }
+
 \usepackage{ upgreek }
 
 \usepackage{listings}
@@ -62,9 +64,157 @@ aspx
         in a Distributed System}. \\
       http://research.microsoft.com/en-us/um/people/lamport/pubs/time-clocks. pdf
     }
-  }
+    
+    El concepto ''un evento sucede antes de otro evento'' en sistemas
+    distribuidos sirve para definir un orden parcial sobre el conjunto
+    de los eventos de cualquier ejecución sobre un sistema
+    distribuido. En el artículo escrito por Leslie Lamport se expone un
+    algoritmo distribuido para sincronizar un sistema lógico de
+    relojes que puedan dar un orden total al conjunto de eventos.
+    Y finalizamos con un refinamiento del algoritmo para sincronizar
+    relojes físicos.\\
+    \\
+    Asumimos que un sistema dsitribuido esta compuesto por una
+    colección de procesos que se comunican a través del paso del
+    mensajes, cada proceso consiste en una secuencia de eventos, en
+    otras palabras, un proceso se define por un conjunto de eventos
+    que tienen un orden a priori, en éste artículo no se discutirá el
+    caso en donde cada proceso se puede dividir en subprocesos, hay
+    que tomar en cuenta que recibir o enviar un mensaje hacia otro
+    proceso también cuenta como un evento. Definimos la relación ''un
+    evento sucede antes de otro evento'', denotado como
+    ''$\shortrightarrow$''.\\ \textit{Definición:} La relación
+    ''$\shortrightarrow$'' sobre un conjunto de eventos satisface las
+    siguientes condiciones: 
+    \begin{enumerate}
+      \item{Si $a$ y $b$ son dos eventos en el mismo proceso, y $a$ se
+        ejecute antes que $b$, entonces $a \shortrightarrow b$.}
+      \item {Si $a$ es el envio de un mensaje en un proceso y $b$ es
+          la recepción del mensaje por otro proceso, entonces $a
+          \shortrightarrow b$.}
+        \item{Si $a \shortrightarrow b$ $b \shortrightarrow c$,
+            entonces $a \shortrightarrow c$.} 
+    \end{enumerate}
+    Decimos que dos eventos son concurrentes si $a \nrightarrow b$ y
+    $b \nrightarrow a$.\\
+    Con la definición anterior podemos definir un a serie de relojes
+    abstractos. Sea $C_i$ el reloj del proceso $P_i$, tal que $C_i$
+    asigna números a los eventos del proceso $P_i$ escrito como $C_i\langle a
+    \rangle$, todos los relojes $C_i$ de cada proceso estan
+    representados por una función $C$, tal que $C\langle b \rangle$
+    $=$  $C_j\langle b \rangle$  donde $b$ es un evento del proceso
+    $P_j$.\\
+    Por el momento estudiaremos los relojes abstractos que hemos
+    descrito, pero debemos hacer notar que estos no son relojes
+    físicos.\\
+    El proposito de este reloj abstracto, es el de proveer al sistema
+    de un orden total respecto a que eventos ocurren antes que otros,
+    por lo que decimos que la siguiente condición es suficiente.\\
+    $Condicion:$ Para cada evento $a$, $b$ si $a\shortrightarrow b$
+    entonces $C \langle a \rangle$ $<$ $C\langle b \rangle$.\\
+    Para que la condición se cumpla dentro de nuestro sistema
+    distribuido se debe satisfacer lo siguiente:
 
-  \item{
+    \begin{enumerate}
+
+    \item{$C1$ Si $a$ y $b$ son eventos del proceso $P_i$, y $a$ occure
+          antes que $b$, entonces $C_i \langle a \rangle$ $<$ $C_i
+          \langle a \rangle$.}
+
+        \item{$C2$ Si $a$ es un envio de mensaje hecho por el proceso
+            $P_i$ y $b$ es el evento del proceso $P_j$ que recibe ese
+            mensaje, entonces $C_i \langle a \rangle$ $<$ $C_j \langle a
+            \rangle$.}
+
+    \end{enumerate}
+    
+    Para tener una primera aproximación de este reloj abstracto,
+    podemos pensar que cada proceso tiene un contador, por el momento
+    supondremos que  el contador de cada proceso $P_i$ esta
+    sincronizado con los demás contadores.\\
+    De esta forma para que esta pequeña aproximación cumpla las
+    condiciones $C1$ y $C2$, debe suceder lo siguiente:
+
+    \begin{enumerate}
+      
+      \item{$IR1$ Cada proceso $P_i$ incrementa su reloj $C_i$ entre
+          cada dos eventos sucesivos.}
+
+        \item{$IR2$ 
+            \begin{enumerate}
+
+              \item{Si el evento $a$ en el proceso $P_i$ envia un
+                  mensaje $m$, entonces el mensaje $m$ contiene un
+                  $timestamp$ $T_m$ $=$  $C_i \langle a \rangle$}
+
+              \item{El evento $b$ del proceso $P_j$ que recibe el
+                  mensaje $m$ tiene un $timestamp$ mayor a $T_m$.}
+
+            \end{enumerate} 
+          }
+        \end{enumerate}
+        
+        Podemos usar este sistema de relojes que hemos descrito
+        para describir un orden total para los eventos ocurridos
+        en un sistema distribuido.\\
+        Definimos la relación $\Rightarrow$ entre dos eventos, si
+        $a$ es un evento del proceso $P_i$ y $b$ es un evento del
+        proceso $P_j$, entonces $a \Rightarrow b$ si y solo si $(i)$
+        $C_i \langle a \rangle$ $<$ $C_j \langle b \rangle$ o $(ii)$ 
+        $C_i \langle a \rangle$ $=$ $C_j \langle b \rangle$ y $P_i
+        < P_j$.\\
+        Es importante notar que este orden depente del sistema de
+        relojes del cual haga uso el sistema y por lo mismo el orden
+        no es único.\\
+        \\
+        La capacidad de poder ordenar de forma total los eventos nos
+        brinda la capacidad de poder resolver ciertos
+        problemas. Recordemos  el problema de los filosofos propusto
+        por Dijkstra,  tenemos $n$ procesos que comparte un solo
+        recurso del sistema.\\
+        Decimos que el siguiente algoritmo resuelve este problema.\\
+
+        \begin{enumerate}
+        \item{Para pedir el recurso, el proceso $P_i$ envia un mensaje
+            $T_m:$ $P_i$ $solicita$ $el$ $recurso$ a todos los
+            procesos y coloca el mensaje en su propia cola de solicitudes.
+          }
+
+        \item{Cuando $P_j$ recibe el mensaje  $T_m:$ $P_i$ $solicita$
+            $el$ $recurso$, coloca el mensaje en su cola de
+            solicitudes y envia un mensaje de recibido a $P_i$.}
+
+        \item{Cuando el recurso es liberado, el proceso $P_i$ remueve
+            cualquier mensaje $T_m:$ $P_i$ $solicita$
+            $el$ $recurso$ de su cola y envia un mensaje $P_i$ $libera$
+            $el$ $recurso$ a cada proceso.}
+
+          \item{Cuando un proceso $P_j$ recibe el mensaje $P_i$ $libera
+              el recurso$, remueve los mensajes $T_m:$ $P_i$ $solicita$
+              $el$ $recurso$ de su cola.}
+
+          \item{El proceso $P_i$ hace uso del recurso cuando alguna de
+            las siguientes condiciones se cumple.
+
+            \begin{enumerate}
+              
+            \item {Existe un mensaje  $T_m:$ $P_i$ $solicita$
+                $el$ $recurso$ en su propia cola de prioridades que es
+                el mensaje con más prioridad.
+              }
+
+              \item{$P_i$ recibe un mensaje de otro proceso con un
+                  $timestamp$ menos antiguo a $T_m$. }
+              
+            \end{enumerate}
+
+          }
+        \end{enumerate}
+        
+ 
+      }
+
+    \item{
       \textsl{
         Leer y hacer un resumen de no más de 2 páginas del capítulo de
         Leslie Lamport del Libro Out of Their Minds. \\ 
