@@ -37,6 +37,86 @@
       funciona si Bob no puede ver el estado de las latas. Demuestra
       que el protocolo cumple con safety y liveness.
     }
+    
+    Los algoritmos para establecer el protocolo son los siguientes:
+    \begin{itemize}
+      \item{
+          Alice(consumidor):
+          \begin{itemize}
+            \item[1.]{Espera a que la lata este arriba.}
+            \item[2.]{Saca al perro.}
+            \item[3.]{Espera a que el perro consuma la comida.}
+            \item[4.]{Mete al perro.}
+            \item[5.]{Tira la lata.}
+          \end{itemize}
+        }
+
+      \item{
+          Bob(productor):
+          \begin{itemize}
+            \item[1.]{Espera  a que la lata este abajo.}
+            \item[2.]{Sale a dejar comida.}
+            \item[3.]{Regresa}
+            \item[4.]{Coloca arriba la lata.}
+          \end{itemize}
+        }
+    \end{itemize}
+
+    Demostaremos que nuestro protocolo cumple con las siguientes
+    propiedades:
+
+    \begin{itemize}
+      \item{\textit{Safety (mutual exclusion)}: Bob y los perros no
+          pueden estar en el jardín al mismo tiempo.}
+      \item{\textit{Liveness (starvation-freedom) }: Si Bob siempre
+          tiene comida, y los perros siempre tienen hambre, entonces
+          los perros comeran de forma indefinidamente.}
+
+        \item{\textit{Producer-Consumer}:Los perros no saldrán al jardín a
+        menos de que alla comida ahí,  y Bob no proveera de comida a
+        menos de que la comida se alla consumido. }
+    \end{itemize}
+    
+    Desmostración (\textit{Safety}):\\
+    
+    La lata que Alice tira y Bob levanta se puede representar con un
+    \textit{bit}, en donde si el \textit{bit} esta prendido,
+    representa a la lata parada, y si el \textit{bit} esta apagado,
+    representa a la lata tirada. Para esta demostración utilizaremos
+    la memoria compartida que Bob prende y Alice apaga.\\
+    Supongamos que se da el caso donde Alice saca a los perros y Bob
+    esta en el jardín, eso quiere decir que Bob vio el \textit{bit}
+    apagado y Alice vio el \textit{bit} prendido. Para que Bob vea el
+    \textit{bit} apagado, quire decir que Alice lo apago, puesto que
+    es el único pedaso del protocolo donde el \textit{bit} se
+    apaga, pero para que eso ocurra Alice antes debio meter a los
+    perros, lo cual es una contracción, puesto que los perros estan
+    afuera en el jardín y la única posibilidad de que esten afuera es
+    que Bob haya prendido el \textit{bit} justo cuando regresa a su
+    casa.\\
+    Por lo tanto la propiedad de \textit{safety} se cumple.\\
+    
+    Demostración (\textit{Liveness}):\\
+    
+    Supongamos que los perros siempre tienen hambre y Bob intenta
+    salir a dejar comida y no puede. Eso quiere decir que el
+    \textit{bit} no puede estar apagada por que Bob intentaria salir a
+    dejar comida, pero entonces el \textit{bit} esta prendido, pero
+    como los perros tienen hambre, eventualmente Alice apagara el
+    \textit{bit}, por lo tanto debe de estar apagado, lo cual es una
+    contradicción. Por lo tanto la propiedad de
+    \textit{starvetion-freedom} se cumple.\\
+
+    Demostración (\textit{Producer-Consumer}):\\
+
+    La propiedad de \textit{Safety} nos asegura que los perros y Bob
+    nunca estaran juntos en el jardin. Bob no entrar al jardín hasta
+    que Alice apague el \textit{bit}, que solo hará si no hay mas
+    comida en el jardón. De forma similar, los perros no entran al
+    jardín hasta que Bob prenda el \textit{bit}, que solo hara después
+    de colocar comida en el jardín. Por lo tanto los perros salen
+    cuando no hay comida y Bob no proveera de comida a menos de que
+    previamente los perros se la hayan comido.
   }
   
 \item{
