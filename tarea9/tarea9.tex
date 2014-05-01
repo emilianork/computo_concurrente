@@ -1,0 +1,123 @@
+\documentclass{article}
+
+\usepackage[utf8x]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[margin=3.1cm]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+\usepackage{ stmaryrd }
+
+\usepackage{ upgreek }
+
+\usepackage{listings}
+
+\linespread{1.2}
+
+\usepackage{color}
+\usepackage{listings}
+
+\definecolor{javared}{rgb}{0.6,0,0} % for strings
+\definecolor{javagreen}{rgb}{0.25,0.5,0.35} % comments
+\definecolor{javapurple}{rgb}{0.5,0,0.35} % keywords
+\definecolor{javadocblue}{rgb}{0.25,0.35,0.75} % javadoc
+ 
+\lstset{language=Java,
+basicstyle=\ttfamily,
+keywordstyle=\color{javapurple}\bfseries,
+stringstyle=\color{javared},
+commentstyle=\color{javagreen},
+morecomment=[s][\color{javadocblue}]{/**}{*/},
+numbers=left,
+numberstyle=\tiny\color{black},
+stepnumber=1,
+numbersep=10pt,
+tabsize=4,
+showspaces=false,
+showstringspaces=false}
+
+\title{ Computación Concurrente \\ \Large{Tarea 9}
+\author{
+  Diego Goméz Montesinos
+  \and
+  José Emiliano Cabrera Blancas
+  }
+\date{6 Mayo 2014}
+}
+\begin{document}
+\maketitle
+\begin{enumerate}
+  
+\item{
+    \textsl{
+      Los programadores de la compañía de computación Flaky diseñaron
+      el protocolo que se muestra a continuación para lograr la
+      exclusión mútua de n-hilos. Para cada pregunta, presenta una
+      prueba o despliega una ejecución donde falle.
+    }
+      \begin{itemize}
+        \item{\textsl{¿El protocolo satisface la exclusión mútua?}}
+        \item{\textsl{¿Este protocolo es starvation-free?}}
+        \item{\textsl{¿Este protocolo es deadlock-free?}}
+      \end{itemize}
+
+      \renewcommand{\lstlistingname}{}
+\begin{lstlisting}[frame=single]
+class Flaky implements Lock {
+   private volatile int turn ;
+   private volatile boolean busy = false ; 
+   
+   public void lock () {
+      int me = ThreadID.get();
+      do {
+         do {
+            turn = me;
+         } while (busy);
+         busy = true;
+         while (turn != me);
+      }
+   }
+
+   public void unlock () {
+      busy = false;
+   }
+}
+\end{lstlisting}
+      
+  }
+
+\item{
+    \textsl{
+      Durante la exposición se mostró la construcción de un sistema
+      bounded-Timestamp para 2 y 3 hilos, con base en la explicación
+      dada, construya uno para 4 hilos y responda adicionalmente las
+      siguientes preguntas.
+    }
+    \begin{itemize}
+    \item{\textsl{
+          En el sistema construido para 3 hilos puede observarse que
+          existen más vértices que procesos y podría suponerse que es
+          posible el utilizarlo para 4 hilos, muestre un ejemplo que
+          contradiga esta suposición.
+        }}
+
+    \item{\textsl{
+          Indique el número de vértices necesarios para un sistema de
+          8 hilos e indique el número máximo de bits necesarios para
+          representarlo.
+        }}
+    \end{itemize}
+  }
+    
+\item{
+    \textsl{
+      Lee el documento de Moore´s Law and the Sand-Heap Paradox y da
+      tu opinión en una cuartilla.
+    }
+  }
+  
+\end{enumerate}
+\end{document}
