@@ -77,8 +77,7 @@ class Flaky implements Lock {
             turn = me;
          } while (busy);
          busy = true;
-         while (turn != me);
-      }
+         } while (turn != me);
    }
 
    public void unlock () {
