@@ -86,6 +86,92 @@ class Flaky implements Lock {
 }
 \end{lstlisting}
       
+      Primero recordemos las definciones de lo que nos piden demostrar
+      o dar una contradición.
+      \begin{itemize}
+      \item{\textbf{Exclusión Mutua:} Las secciones criticas entre
+          los procesos nunca se van a translapar.}
+
+        \item {\textbf{Starvation-free:} Cada hilo que intente
+            adquirir el \textit{lock} eventualmente lo logra.}
+
+        \item{\textbf{Deadlook-free:} Si algún hilo intenta conseguir
+            el \textit{lock}, entonces ese mismo hilo u otro hilo
+            obtendra el \textit{lock}.}
+      \end{itemize}
+
+      \begin{itemize}
+        \item{\textbf{Exclusión Mutual}\\
+            Podemos observar que si esta propiedad no se cumpliera,
+            implicaria que existe al menos una ejecución en donde 2 o
+            más procesos adquieren el \textit{lock} antes de que se
+            liberen.\\
+
+            Demostración (por contradicción):\\
+            Supongamos que 2 o más procesos adquieren el \textit{lock}
+            antes de que este se libere.\\
+
+            Si dos o más procesos adquirieron el \textit{lock} eso
+            quiere decir que en algún momento ellos procesaron 
+            \textit{turn != me} como \textit{false} y por lo tanto
+            tuvieron que procesar \textit{while(busy)} como
+            \textit{false}.\\
+            Pero para que eso pase, cada proceso que obtuvo el
+            \textit{lock} ejecuto \textit{turn = me}, por lo que el
+            último que lo escribio fue el único que vio \textit{turn
+              != me} como \textit{false}, lo cual es una contradicción
+            por que todos vieron \textit{turn != me} como
+            \textit{false}, por lo tanto la exclusión mutua se cumple.\\
+          }
+
+        \item{\textbf{Starvation-free:} Afirmamos que esta propiedad
+            no se cumple, lo cual quiere decir existe una ejecución
+            donde al menos un hilo no logra obtener el \textit{lock}
+            nunca.\\
+
+            Ejecución:\\
+            Tenemos un escenario donde el \textit{lock} esta libre.\\
+            El proceso A comienza a ejecutar el código para pedir el
+            \textit{lock}, y ejecuta la linea \textit{turn =
+              me}, después algún otro proceso entra rápido y ejecuta
+            todo el código del metodo \textit{lock}. El proceso A
+            entra en el \textit{loop} hasta que \textit{busy} sea
+            \textit{false}, se libéra el \textit{lock} y la última
+            línea que A procesa es \textit{turn = me} y otra vez,
+            algún otro proceso entra rápido a ejecutar el código del
+            método \textit{lock} y A se queda en el \textit{loop}.\\
+            Este caso lo podemos repetir de forma infinita, y
+            claramente A nunca obtiene el \textit{lock} aunque sea el
+            primer proceso que lo pidio.\\
+
+          }
+
+          \item{\textbf{Deadlook-free:} Afirmamos que esta propiedad
+              no se cumple, lo cual quiere decir que existe una
+              ejecución donde 2 o más procesos solicitan el
+              \textit{lock}, este no esta siendo ocupado por otro hilo
+              y aún así el recurso nunca se les es liberado.\\
+
+              Ejecución:\\
+              Tenemos un escenario donde el proceso A y B van a
+              solicitar el \textit{lock} y ningún otro proceso lo esta
+              ocupando.\\
+              El proceso A comienza a ejecutar el código del método
+              \textit{lock}, llega hasta la linea \textit{busy = true}
+              y justo después el proceso B comienza a ejecutar el
+              mismo método \textit{lock}, y la primera linea que
+              ejecuta es \textit{turn = me}, ahora el proceso A
+              continua con su ejecución y se encuentra con que
+              \textit{turn != me}  es \textit{true}, por lo que
+              regresa a ejecutar el inicio del \textit{loop}, como A
+              escribio \textit{busy = true}, el proceso B y el proceso
+              A se quedaran ejecutando el \textit{loop} de forma
+              infinita  y de hecho
+              cualquier otro proceso que entre obtendra el
+              \textit{lock}.\\ \\
+            }
+      \end{itemize}
+      
   }
 
 \item{
