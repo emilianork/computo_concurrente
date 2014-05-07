@@ -180,6 +180,13 @@ class Flaky implements Lock {
       dada, construya uno para 4 hilos y responda adicionalmente las
       siguientes preguntas.
     }
+
+    Siguiendo la forma recursiva de construir la gráfica que representa
+    el sistema Bounded-Timestamp, la construcción de $T^{4}$ da como resultado:
+    \begin{center}
+       \includegraphics[scale=0.25]{t4.png}
+    \end{center}
+
     \begin{itemize}
     \item{\textsl{
           En el sistema construido para 3 hilos puede observarse que
@@ -188,11 +195,24 @@ class Flaky implements Lock {
           contradiga esta suposición.
         }}
 
+        Supongamos que tenemos 4 hilos: $A, B, C$ y $D$. $A$ está en
+        $00$, $B$ en $01$, $C$ en $10$, y $D$ en $20$. Supongamos que
+        $D$ se retrasa y $C$ termina y quiere de nuevo entrar,
+        entonces tendría que acomodarse en un lugar tal que domine
+        a $A, B$ y $D$, y ese lugar solo está en el $02$, y entonces
+        ya no estaría claro quién domina a quién.
+
     \item{\textsl{
           Indique el número de vértices necesarios para un sistema de
           8 hilos e indique el número máximo de bits necesarios para
           representarlo.
         }}
+
+        Con la regla recursiva el número de vértices necesarios, es decir,
+        el número de nodos de $T^{8}$, son $3^{8-1} = 3^{7} = 2187$.\\
+        Como en cada circulo tenemos las etiquetas $0, 1$ y $2$, necesitamos
+        $2$ bits en cada nivel. Si tenemos $8$ niveles, entonces, necesitamos
+        $2^{8} = 256$ bits.
     \end{itemize}
   }
     

@@ -126,6 +126,33 @@
       núcleos de proceso serán necesarios.
     }
   }
+  Según la ley de Amdahl, establece que\\
+  \begin{center}
+  $A = \frac{1}{(1 - F_{m}) + \frac{F_{m}}{A_{m}}}$
+  \end{center}
+  donde:\\
+  $A$, es la aceleración o el speedup.\\
+  $A_{m}$, es el factor de mejora que se introdujo en el subsistema, en el caso de un
+  algoritmo es el número de núcleos de procesador adicionales.\\
+  $F_{m}$, es el tiempo que el sistema usa el subsistema mejorado, en el caso de un
+  algoritmo es el porcentaje del algoritmo que es paralelizado (o el ocupado por los
+  núcleos de procesador adicionados).\\
+  Sustituyendo los valores dados en el problema y despejando, entonces:
+  \begin{center}
+  $n = \frac{1}{(1 - 0.7) + \frac{0.7}{x}} = \frac{1}{0.3 + \frac{0.7}{x}} = \frac{x}{0.3x + 0.7}$
+  \end{center}
+  Multiplicando:
+  \begin{center}
+  $(0.3x + 0.7)n = x \Rightarrow 0.3xn + 0.7n = x \Rightarrow 0.7n = x - 0.3xn \Rightarrow 0.7n = x(1 - 0.3n)$
+  \end{center}
+  Entonces, si queremos hacer el algoritmo $n$ véces más rapido necesitamos
+  \begin{center}
+  $x = \frac{0.7n}{1 - 0.3n}$
+  \end{center}
+  procesos.\\
+  Haciendo algunos ejemplos:\\
+  Para $n = 2$ necesitamos $\frac{0.7 (2)}{1 - 0.3 (2)} = 3.5$ procesos.\\
+  Para $n = 3$ necesitamos $\frac{0.7 (3)}{1 - 0.3 (3)} = 21$ procesos.
 
 \end{enumerate}
 \end{document}
