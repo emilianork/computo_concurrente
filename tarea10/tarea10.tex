@@ -148,7 +148,104 @@ class IQueue<T> f {
       otros. Describir detalladamente el algoritmo que construye
       registros Multi-Writer Atomic a partir de los registros
       Multi-Reader Atomic. Demostrar de manera intuitiva que el
-      algoritmo es correcto.
-    }}
+      algoritmo es correcto.\\
+    }
+    
+    Un registro es atómico si cumple con las siguientes tres
+    condicciones:
+
+    \begin{itemize}
+      
+    \item{Ninguna lectura regresa un valor del futuro.}
+    \item{Ninguna lectura regresa un valor de un pasado distante, esto
+        es, nunca pasara que $W^i$ $\rightarrow$ $W^j$ $\rightarrow$ $
+        R^i$.}
+      \item{Una lectura anterior a otra lectura no puede regresar un
+          valor más reciente que la otra lectura, es decir, $R^1$
+          $\rightarrow$ $R^j$ entonces $i$ $\leq$ $j$.}
+    \end{itemize}
+  
+    Proponemos el siguiente código como la implementación de un
+    registro MRMW atómico.
+    
+    \renewcommand{\lstlistingname}{}
+\begin{lstlisting}[frame=single]
+public class AtomicMRMWRegister<T> implements Register<T> {
+   // array of atomic MRSW registers
+   private StampedValue<T>[] a_table;
+
+   public AtomicMRMWRegister(int capacity, T init) {
+      a_table = (StampedValue<T>[]) new StampedValue[capacity];
+      StampedValue<T> value = new StampedValue<T>(init);
+      for(int j = 0; j < a_table.length; j++) {
+         a_table[j] = value;
+      }
+   }
+
+   public void write(T value) {
+      int me = ThreadID.get();
+      StampedValue<T> max = StampedValue.MIN_VALUE;
+      for(int i = 0; i < a_table.length; i++) {
+         max = StampedValue.max(max, a_table[i]);
+      }
+   a_table[me] = new StampedValue(max.stamp + 1, value);
+   }
+
+   public T read() {
+      StampedValue<T> max = StampedValue.MIN_VALUE;
+      for (int i = 0; i < a_table.length; i++) {
+        max = StampedValue.max(max, a_table[i]);
+      }
+      return max.value;
+   }
+}
+\end{lstlisting}
+    La descripción del código anterior tiene como idea la siguiente:\\
+    Para que un \textit{thread} A escriba en el registro, entonces
+    obtiene el \textit{timestamp} máximo del arreglo de MRSW, y
+    escribe en su casilla el nuevo valor junto con un
+    \textit{timestamp} mayor al máximo.\\
+    La lectura del registro por un \textit{thread} A es muy simple,
+    recorre todo el arreglo de MRSW, obtiene el máximo
+    \textit{timestamp} del arreglo y regresa el valor de esa
+    casilla.\\
+
+    Demostración (Ninguna lectura regresa un valor del futuro):\\
+    Primero, es importante que observemos que se definio un orden
+    lexicografico sobre la precedencia de los valores usando el
+    \textit{id} de los \textit{threads} y el \textit{timestamp} cuando
+    se hizo la escritura, es decir, la escritura de A precede a la de
+    B si $t_A < t_B$ o si $t_A = t_B$ y $A[id] < B[id]$. Y este orden
+    lexicografico es un orden total.\\
+    Como podemos observar el código de la escritura toma lugar hasta
+    que se ejecuta la última asignación del método, por lo que un
+    \textit{thread} A no puede ver el nuevo valor hasta que la
+    escritura termine, por lo tanto la condición se cumple.\\
+
+    Demostración (Ninguna lectura regresa un valor de un pasado
+    distante, esto es, nunca pasara que $W^i$ $\rightarrow$ $W^j$
+    $\rightarrow$ $R^i$):\\
+    Supongamos que el \textit{thread} A escribe antes que el
+    \textit{thread} B escribe y el \textit{thread} C lee antes que
+    escriba el \textit{thread} B. Si $A$ $=$ $B$, entonces el valor de
+    \texttt{a\_table[A]} se sobreescribio, por lo que regresa el
+    segundo valor escrito. Si $A$ $\neq$ $B$, entonces como el
+    \textit{timestamp} de A es menor al de B entonces C regresa el
+    valor que escribio B, por lo tanto la condición se cumple.\\
+
+    Demostración (Una lectura anterior a otra lectura no puede regresar un
+    valor más reciente que la otra lectura, es decir, $R^1$
+    $\rightarrow$ $R^j$ entonces $i$ $\leq$ $j$):\\
+    Supogamos que A lee el registro antes que B, y C escribe antes que
+    D. Debemos mostrar que si A regresa el valor que escribio D,
+    entonces B no puede regresar el valor que escribio C. Si $t_C$ $<$
+    $t_D$ entonces A se queda con \texttt{a\_table[D]}, B lee $t_D$ o
+    un \textit{timestamp} mayor y no regresa el valor asociado a
+    $t_C$. Si $t_C = t_D$ (las escrituras fueron concurrentes),
+    entonces como $C[id]$ $<$ $D[id]$, entonces A regresa el valor que
+    escribio D y B regresa el mismo valor u otro con mayor
+    \textit{timestamp}. Por lo tanto la condición se cumple.\\
+  }
+  
 \end{enumerate}
 \end{document}
