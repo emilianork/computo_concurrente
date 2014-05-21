@@ -54,10 +54,72 @@ showstringspaces=false}
 \item{
     \textsl{
       Hacer un resumen de a lo más una cuartilla de Don't Settle for
-      Eventual Consistency
+      Eventual Consistency.\\
     }
-  }
+    
+    El geo-replicamiento de datos provee copias de la misma
+    información en multiples locaciones geograficamente distantes. En
+    cada centro de datos, un grupo de servidores acepta peticiones
+    HTTP y maneja esas peticiones escribiendo y leyendo informacion
+    del sistema de almacenamiento.\\
+    El geo-replicamiento provee de dos servicios Web clave: tolerancia
+    a fallos y lantecia baja. La tolerancia a fallos se soluciana  a
+    traves de la redudancia: si algún centro de datos falla, entonces
+    otro puede tomar su lugar y proveer el servicio. Provee baja
+    latencia a traves de la proximidad: los clientes hacen peticiones
+    a servidores cercanos a ellos.\\
+    Un sistema con consistencia fuerte siempre esta disponible para
+    lecturas y escrituras, y cuando la red se
+    particione el sistema puede continuar brindado
+    servicio. Disponibilidad implica que el servicio siempre podra
+    responderle a todos los usuarios, y la tolerancia al
+    particionamiento de la red implica que el sistema pueda continuar
+    cuando los centros de datos no se puedan conmunicar entre si.\\
+    
+    Consistencia Eventual\\
+    
+    La consistencia eventual es un termino usado para multiples
+    significados. En este texto lo definiriemos de la siguiente forma:
+    La escritura en un centro de datos eventualmente aparecera en los
+    otros centros de datos y su todos los centros de datos reciben la
+    misma información de escritura, entonces todos los datos tendran
+    los mismo valores.\\
+    Debemos fijarnos en que, aunque la consistencia eventual provee a
+    los programadores una forma más fácil de hacer las cosas, esta no
+    nos define un orden sobre las operaciones de escritura y
+    lectura. Lo que significa que los distintos centro de datos solo
+    reflejarian conjuntos distintos de operaciones.\\
+    
+    Consistencia Casual\\
 
+    La concistencia casual nos asegura que las operaciones apareceran
+    en el orden en el que el usuario espera que sucedan. Más
+    precisamente, asegura que existira un orden parcial sobre las
+    operaciones.\\
+    Las tres condiciones que se cumples son:\\
+    \begin{itemize}
+      \item{\textbf{Hilo de ejecución}: Si a y b son dos operaciones que
+          realiza un solo hijo de ejecución, entonces $a \rightarrow
+          b$.}
+      
+      \item{\textbf{Lecturas-de}: Si a es una operaciones de escritura
+        y b una de lectura que regresa el valor de a, entonces $a
+        \rightarrow b$.}
+
+      \item{\textbf{Transitividad}: Para las operaciones a, b y c, si
+          $a \rightarrow b$ y $b \rightarrow c$, entonces $a
+          \rightarrow b$}
+    \end{itemize}
+  }
+  La consistencia casual deja felices a los usuarios, por que se
+  asegura que las operaciones se aplicaran en todos los centro de
+  datos en el orden en el que se hicieron.\\
+  
+  Aunque la consistencia casual soluciona un problema grave para
+  sistemas como las redes sociales, no son una solución viable para
+  sistemas donde la disponibilidad de los datos más actuales
+  siempre sea requerido, como es el caso del sistema financiero.\\
+  
 \item{
     \textsl{
       En la figura se muestra una historia para tres procesos, cada
