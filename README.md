@@ -1,2 +1,2 @@
-computo_concurrente
+Computo Concurrente
 ===================

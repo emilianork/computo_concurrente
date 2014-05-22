@@ -147,7 +147,26 @@ showstringspaces=false}
 
 \begin{enumerate}
   \item{\textsl{Indica si la historia es linearizable}}
+  \\No es linearizable.
+  \\\\Llamemosle al proceso amarillo A, al azul B y al verde C.
+  \\Fijemonos en la primera llamada de C a s.top(): en esta llamada le
+  es regresado $1$, lo cual significa que antes tuvo que tener efecto
+  la llamada de B a s.push(1).
+  \\Ahora, en la segunda llamada de C a s.top() le es regresado $0$.
+  Recordemos que la operación s.top(i) solo regresa el elemento en la
+  casilla superior, y no la elimina, además la segunda llamada de C está
+  justo después de la primera llamada, por lo que esta tendría que haber
+  regresado $1$ igual que la anterior.
+  \\Esto es suponiendo que la llamada de B tuvo efecto después de la
+  llamada de A.
+  \\\\Si la llamada de A tiene efecto después de la llamada de B, entonces
+  la primera llamada a s.top() de C tuvo que regresar 0, es decir, el valor
+  de A pues fue el último.
+  \\\\Por lo tanto no hay manera de acomodar los puntos de linearización.
   \item{\textsl{Indica si la historia es secuencialmente consistente}}
+  \\Si es secuencialmente consistente.
+  \\\\Considere el orden siguiente: B hace s.push(1), C lee con s.top(1),
+  después A hace s.push(0) y por último C lee s.top(0).
 \end{enumerate}
 
 \item{\textsl{
@@ -201,7 +220,14 @@ class IQueue<T> f {
 \end{lstlisting}
     \textsl{Da un ejemplo que muestre que esta implementación no es
       linearizable.}
-
+    \\El problema que tiene esta implementación es que no sabemos si
+    tenemos 3 procesos y dos son rápidos y uno lento, puede que el lento
+    devuelva un valor anterior al que tenía que devolver. Como se muestra
+    en la siguiente imagen:
+    \\
+    \begin{center}
+      \includegraphics[scale=0.5]{figure2}
+    \end{center} 
   }
 }
 
